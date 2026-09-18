@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SearchForm from "../components/SearchForm.astro";
+import EstadoGrid from "../components/EstadoGrid.astro";
+import { getEstadoHubs } from "../lib/sedes";
+
+const estados = getEstadoHubs();
+---
+
+<BaseLayout
+  title="Página no encontrada | Oficinas Becas Bienestar"
+  description="La página que buscas no existe. Usa el buscador o elige un estado para localizar una sede de Becas Bienestar Benito Juárez."
+  path="/404/"
+  noindex
+>
+  <section class="section">
+    <div class="wrap">
+      <h1 class="page-title">No encontramos esa página</h1>
+      <p class="lede">
+        El enlace puede estar mal escrito o la sede ya no está en el directorio. Busca por
+        municipio o entra al listado de tu estado.
+      </p>
+      <div class="panel" style="margin-bottom: 1.5rem;">
+        <SearchForm />
+      </div>
+      <h2>Ir a un estado</h2>
+      <EstadoGrid estados={estados} />
+    </div>
+  </section>
+</BaseLayout>

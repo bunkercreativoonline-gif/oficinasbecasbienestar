@@ -1,0 +1,138 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Disclaimer from "../../components/Disclaimer.astro";
+import MapEmbed from "../../components/MapEmbed.astro";
+import SedeCard from "../../components/SedeCard.astro";
+import { formatPhone, telHref } from "../../lib/format";
+import { getAllSedes, getNearbySedes } from "../../lib/sedes";
+import {
+  breadcrumbJsonLd,
+  sedeDescription,
+  sedeJsonLd,
+  sedeTitle,
+} from "../../lib/schema";
+
+export function getStaticPaths() {
+  return getAllSedes().map((sede) => ({
+    params: { slug: sede.slug },
+    props: { sede },
+  }));
+}
+
+const { sede } = Astro.props;
+const nearby = getNearbySedes(sede);
+const title = sedeTitle(sede);
+const description = sedeDescription(sede);
+const crumbs = [
+  { name: "Inicio", path: "/" },
+  { name: sede.estadoDisplay, path: sede.estadoPath },
+  { name: sede.municipioDisplay, path: sede.municipioPath },
+  { name: sede.nombreDisplay, path: sede.path },
+];
+const badgeClass =
+  sede.tipo === "SARE" ? "badge badge-sare" : sede.tipo === "ORE" ? "badge badge-ore" : "badge";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={sede.path}
+  jsonLd={[breadcrumbJsonLd(crumbs), sedeJsonLd(sede)]}
+>
+  <section class="section">
+    <div class="wrap">
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: sede.estadoDisplay, href: sede.estadoPath },
+          { label: sede.municipioDisplay, href: sede.municipioPath },
+          { label: sede.nombreDisplay },
+        ]}
+      />
+      <p>
+        <span class={badgeClass}>{sede.tipoShort}</span>
+      </p>
+      <h1 class="page-title">{sede.nombreDisplay}</h1>
+      <p class="lede">
+        {sede.tipoLabel} de Becas para el Bienestar Benito Juárez en {sede.asentamientoDisplay},
+        {sede.municipioDisplay}, {sede.estadoDisplay}.
+      </p>
+      <div class="sede-hero">
+        <div class="panel">
+          <dl class="kv">
+            <div>
+              <dt>Dirección</dt>
+              <dd>
+                {sede.direccion}
+                <br />
+                {sede.asentamientoDisplay}, {sede.localidadDisplay}
+                <br />
+                {sede.municipioDisplay}, {sede.estadoDisplay}
+                <br />
+                C.P. {sede.cp}
+              </dd>
+            </div>
+            <div>
+              <dt>Tipo de sede</dt>
+              <dd>
+                {sede.tipoShort} — {sede.tipoLabel}
+                <br />
+                <a href={`/tipo/${sede.tipo.toLowerCase()}/`}>Ver todas las {sede.tipoShort}</a>
+              </dd>
+            </div>
+            <div>
+              <dt>Teléfonos</dt>
+              <dd>
+                {
+                  sede.telefonos.length ? (
+                    sede.telefonos.map((phone) => (
+                      <div>
+                        <a href={telHref(phone)}>{formatPhone(phone)}</a>
+                      </div>
+                    ))
+                  ) : (
+                    <span class="muted">Sin teléfono publicado en el buscador oficial.</span>
+                  )
+                }
+              </dd>
+            </div>
+            <div>
+              <dt>Correo</dt>
+              <dd>
+                {
+                  sede.correos.length ? (
+                    sede.correos.map((email) => (
+                      <div>
+                        <a href={`mailto:${email}`}>{email}</a>
+                      </div>
+                    ))
+                  ) : (
+                    <span class="muted">Sin correo publicado en el buscador oficial.</span>
+                  )
+                }
+              </dd>
+            </div>
+          </dl>
+        </div>
+        <MapEmbed lat={sede.lat} lng={sede.lng} nombre={sede.nombreDisplay} direccion={sede.direccion} />
+      </div>
+      {
+        nearby.length > 0 && (
+          <div style="margin-top: 2rem;">
+            <h2>Otras sedes cercanas</h2>
+            <p class="intro">Oficinas en {sede.municipioDisplay} o en el resto de {sede.estadoDisplay}.</p>
+            <div class="grid-cards">
+              {nearby.map((item) => (
+                <SedeCard sede={item} />
+              ))}
+            </div>
+          </div>
+        )
+      }
+      <div style="margin-top: 1.5rem;">
+        <Disclaimer />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

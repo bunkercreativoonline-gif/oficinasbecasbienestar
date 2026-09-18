@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SearchForm from "../components/SearchForm.astro";
+import EstadoGrid from "../components/EstadoGrid.astro";
+import Disclaimer from "../components/Disclaimer.astro";
+import { getEstadoHubs, getStats } from "../lib/sedes";
+import { TIPO_META } from "../lib/tipos";
+import {
+  homeDescription,
+  homeTitle,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "../lib/schema";
+
+const stats = getStats();
+const estados = getEstadoHubs();
+const title = homeTitle();
+const description = homeDescription(stats);
+---
+
+<BaseLayout title={title} description={description} path="/" jsonLd={[organizationJsonLd(), websiteJsonLd()]}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Sedes de atención de Becas Bienestar Benito Juárez</h1>
+      <p class="lede">
+        Directorio de las {stats.sedes} oficinas CABB, SARE y ORE en los {stats.estados} estados
+        de México. Busca por municipio o recorre el listado estatal para ver dirección, teléfono y mapa.
+      </p>
+      <div class="stats" aria-label="Resumen del directorio">
+        <div class="stat"><b>{stats.sedes}</b><span>Sedes de atención</span></div>
+        <div class="stat"><b>{stats.estados}</b><span>Estados</span></div>
+        <div class="stat"><b>{stats.municipios}</b><span>Municipios</span></div>
+        <div class="stat"><b>{stats.sare}</b><span>SARE regionales</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="panel search-panel">
+      <SearchForm />
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Tipos de sede</h2>
+      <p class="intro">
+        El buscador oficial agrupa las oficinas en tres tipos. Usa estas páginas para entender
+        cuál te corresponde y ver el listado completo.
+      </p>
+      <div class="grid-tipos">
+        <a class="tipo-card" href="/tipo/cabb/">
+          <span class="badge">CABB</span>
+          <b>{TIPO_META.CABB.label}</b>
+          <span class="muted">{stats.cabb} sedes locales</span>
+          <p class="meta">{TIPO_META.CABB.descripcion}</p>
+        </a>
+        <a class="tipo-card" href="/tipo/sare/">
+          <span class="badge badge-sare">SARE</span>
+          <b>{TIPO_META.SARE.label}</b>
+          <span class="muted">{stats.sare} sedes regionales</span>
+          <p class="meta">{TIPO_META.SARE.descripcion}</p>
+        </a>
+        <a class="tipo-card" href="/tipo/ore/">
+          <span class="badge badge-ore">ORE</span>
+          <b>{TIPO_META.ORE.label}</b>
+          <span class="muted">{stats.ore} representaciones estatales</span>
+          <p class="meta">{TIPO_META.ORE.descripcion}</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="estados">
+    <div class="wrap">
+      <h2>Sedes por estado</h2>
+      <p class="intro">
+        Elige tu entidad federativa para ver municipios y oficinas. Chiapas, Veracruz y Puebla
+        concentran el mayor número de sedes.
+      </p>
+      <EstadoGrid estados={estados} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <Disclaimer />
+    </div>
+  </section>
+</BaseLayout>

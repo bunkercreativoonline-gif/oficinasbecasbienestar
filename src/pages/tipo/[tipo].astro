@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Disclaimer from "../../components/Disclaimer.astro";
+import SedeCard from "../../components/SedeCard.astro";
+import { getEstadoHubs, getSedesByTipo } from "../../lib/sedes";
+import { TIPO_META, TIPOS, tipoFromSlug } from "../../lib/tipos";
+import { plural } from "../../lib/format";
+import {
+  breadcrumbJsonLd,
+  itemListJsonLd,
+  tipoDescription,
+  tipoTitle,
+} from "../../lib/schema";
+
+export function getStaticPaths() {
+  return TIPOS.map((tipo) => ({
+    params: { tipo: tipo.toLowerCase() },
+  }));
+}
+
+const tipo = tipoFromSlug(Astro.params.tipo ?? "");
+if (!tipo) throw new Error("Tipo inválido");
+
+const meta = TIPO_META[tipo];
+const sedes = getSedesByTipo(tipo);
+const estados = getEstadoHubs()
+  .map((hub) => {
+    const count = sedes.filter((sede) => sede.estadoSlug === hub.slug).length;
+    return { ...hub, tipoCount: count };
+  })
+  .filter((hub) => hub.tipoCount > 0);
+const path = `/tipo/${meta.slug}/`;
+const title = tipoTitle(tipo, sedes.length);
+const description = tipoDescription(tipo, sedes.length);
+const crumbs = [
+  { name: "Inicio", path: "/" },
+  { name: meta.short, path },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  jsonLd={[
+    breadcrumbJsonLd(crumbs),
+    itemListJsonLd(
+      title,
+      path,
+      sedes.map((sede) => ({ name: sede.nombreDisplay, path: sede.path })),
+    ),
+  ]}
+>
+  <section class="section">
+    <div class="wrap">
+      <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: meta.short }]} />
+      <p>
+        <span class:list={["badge", tipo === "SARE" && "badge-sare", tipo === "ORE" && "badge-ore"]}>
+          {meta.short}
+        </span>
+      </p>
+      <h1 class="page-title">{meta.label} ({meta.short})</h1>
+      <p class="lede">
+        {meta.larga} Este directorio lista {sedes.length} {plural(sedes.length, "sede", "sedes")} {meta.short}
+        en {estados.length} {plural(estados.length, "estado", "estados")}.
+      </p>
+      <h2>Por estado</h2>
+      <div class="grid-estados">
+        {
+          estados.map((hub) => (
+            <a class="estado-card" href={hub.path}>
+              <b>{hub.display}</b>
+              <span class="muted">
+                {hub.tipoCount} {plural(hub.tipoCount, "sede", "sedes")} {meta.short}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+      <h2 style="margin-top: 2rem;">Listado de sedes {meta.short}</h2>
+      <div class="grid-cards">
+        {sedes.map((sede) => <SedeCard sede={sede} />)}
+      </div>
+      <div style="margin-top: 1.5rem;">
+        <Disclaimer />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,24 @@
+---
+import type { EstadoHub } from "../lib/sedes";
+import { plural } from "../lib/format";
+
+interface Props {
+  estados: EstadoHub[];
+}
+
+const { estados } = Astro.props;
+---
+
+<div class="grid-estados">
+  {
+    estados.map((estado) => (
+      <a class="estado-card" href={estado.path}>
+        <b>{estado.display}</b>
+        <span class="muted">
+          {estado.count} {plural(estado.count, "sede", "sedes")} · {estado.municipios}{" "}
+          {plural(estado.municipios, "municipio", "municipios")}
+        </span>
+      </a>
+    ))
+  }
+</div>
