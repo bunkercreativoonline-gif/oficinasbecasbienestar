@@ -9,6 +9,7 @@ import { getAllSedes, getNearbySedes } from "../../lib/sedes";
 import {
   breadcrumbJsonLd,
   sedeDescription,
+  sedeH1,
   sedeJsonLd,
   sedeTitle,
 } from "../../lib/schema";
@@ -24,6 +25,7 @@ const { sede } = Astro.props;
 const nearby = getNearbySedes(sede);
 const title = sedeTitle(sede);
 const description = sedeDescription(sede);
+const heading = sedeH1(sede);
 const crumbs = [
   { name: "Inicio", path: "/" },
   { name: sede.estadoDisplay, path: sede.estadoPath },
@@ -53,10 +55,10 @@ const badgeClass =
       <p>
         <span class={badgeClass}>{sede.tipoShort}</span>
       </p>
-      <h1 class="page-title">{sede.nombreDisplay}</h1>
+      <h1 class="page-title">{heading}</h1>
       <p class="lede">
-        {sede.tipoLabel} de Becas para el Bienestar Benito Juárez en {sede.asentamientoDisplay},
-        {sede.municipioDisplay}, {sede.estadoDisplay}.
+        Oficina de Becas para el Bienestar Benito Juárez ({sede.tipoShort} — {sede.tipoLabel})
+        en {sede.asentamientoDisplay}, {sede.municipioDisplay}, {sede.estadoDisplay}.
       </p>
       <div class="sede-hero">
         <div class="panel">
@@ -120,8 +122,11 @@ const badgeClass =
       {
         nearby.length > 0 && (
           <div style="margin-top: 2rem;">
-            <h2>Otras sedes cercanas</h2>
-            <p class="intro">Oficinas en {sede.municipioDisplay} o en el resto de {sede.estadoDisplay}.</p>
+            <h2>Otras oficinas cercanas</h2>
+            <p class="intro">
+              Más Oficinas de Becas para el Bienestar Benito Juárez en {sede.municipioDisplay}
+              o en el resto de {sede.estadoDisplay}.
+            </p>
             <div class="grid-cards">
               {nearby.map((item) => (
                 <SedeCard sede={item} />

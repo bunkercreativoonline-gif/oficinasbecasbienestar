@@ -1,6 +1,6 @@
-# Oficinas Becas Bienestar
+# Oficinas de Becas para el Bienestar Benito Juárez
 
-Directorio estático SEO de las **711 sedes de atención** de Becas para el Bienestar Benito Juárez en México.
+Directorio estático SEO de las **711 oficinas y sedes de atención** de Becas para el Bienestar Benito Juárez en México.
 
 Sitio: [https://oficinasbecasbienestar.com.mx](https://oficinasbecasbienestar.com.mx)
 
@@ -16,7 +16,7 @@ Este proyecto **no es un sitio oficial de gobierno**. Los datos se tomaron del [
 | `/sede/[slug]/` | Ficha de cada oficina (711) |
 | `/buscar/` | Filtro en el cliente |
 | `/tipo/cabb/`, `/tipo/sare/`, `/tipo/ore/` | Listados por tipo de sede |
-| `/robots.txt`, `/sitemap-index.xml` | SEO técnico |
+| `/robots.txt`, `/sitemap-index.xml`, `/sitemap.xml` | SEO técnico (`/sitemap.xml` es alias del índice) |
 | `404` | Página no encontrada |
 
 Tipos de sede:

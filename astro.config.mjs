@@ -1,7 +1,62 @@
+import { copyFileSync, existsSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
 const SITE = "https://oficinasbecasbienestar.com.mx";
+
+function isExcludedFromSitemap(url) {
+  try {
+    const path = new URL(url).pathname;
+    return (
+      path.includes("404") ||
+      path.endsWith("/sitemap.xml") ||
+      path.endsWith("/sitemap.xml/")
+    );
+  } catch {
+    return url.includes("404");
+  }
+}
+
+function sitemapPriority(url) {
+  if (url === `${SITE}/`) {
+    return { priority: 1, changefreq: "weekly" };
+  }
+  if (url.includes("/tipo/")) {
+    return { priority: 0.8, changefreq: "weekly" };
+  }
+  if (/\/estado\/[^/]+\/[^/]+\/$/.test(url)) {
+    return { priority: 0.7, changefreq: "weekly" };
+  }
+  if (/\/estado\/[^/]+\/$/.test(url)) {
+    return { priority: 0.85, changefreq: "weekly" };
+  }
+  if (url.includes("/sede/")) {
+    return { priority: 0.55, changefreq: "monthly" };
+  }
+  if (url.includes("/buscar/")) {
+    return { priority: 0.5, changefreq: "monthly" };
+  }
+  return { priority: 0.6, changefreq: "weekly" };
+}
+
+/** Copia sitemap-index.xml a sitemap.xml para quien espera esa URL. */
+function sitemapXmlAlias() {
+  return {
+    name: "sitemap-xml-alias",
+    hooks: {
+      "astro:build:done": ({ dir }) => {
+        const dist = fileURLToPath(dir);
+        const indexFile = join(dist, "sitemap-index.xml");
+        const aliasFile = join(dist, "sitemap.xml");
+        if (existsSync(indexFile)) {
+          copyFileSync(indexFile, aliasFile);
+        }
+      },
+    },
+  };
+}
 
 export default defineConfig({
   site: SITE,
@@ -20,24 +75,17 @@ export default defineConfig({
     sitemap({
       changefreq: "weekly",
       lastmod: new Date("2026-09-18"),
+      filter: (page) => !isExcludedFromSitemap(page),
       serialize(item) {
-        const url = item.url;
-        if (url === `${SITE}/`) {
-          item.priority = 1;
-        } else if (url.includes("/sede/")) {
-          item.priority = 0.8;
-        } else if (/\/estado\/[^/]+\/[^/]+\/$/.test(url)) {
-          item.priority = 0.7;
-        } else if (/\/estado\/[^/]+\/$/.test(url)) {
-          item.priority = 0.75;
-        } else if (url.includes("/tipo/")) {
-          item.priority = 0.6;
-        } else if (url.includes("/buscar/")) {
-          item.priority = 0.5;
-          item.changefreq = "monthly";
+        if (isExcludedFromSitemap(item.url)) {
+          return undefined;
         }
+        const { priority, changefreq } = sitemapPriority(item.url);
+        item.priority = priority;
+        item.changefreq = changefreq;
         return item;
       },
     }),
+    sitemapXmlAlias(),
   ],
 });

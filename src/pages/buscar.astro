@@ -3,10 +3,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Disclaimer from "../components/Disclaimer.astro";
 import { getEstadoHubs, getSearchIndex, getStats } from "../lib/sedes";
-import { buscarDescription, buscarTitle } from "../lib/schema";
+import { buscarDescription, buscarH1, buscarTitle } from "../lib/schema";
 
 const title = buscarTitle();
 const description = buscarDescription();
+const heading = buscarH1();
 const index = getSearchIndex();
 const estados = getEstadoHubs();
 const stats = getStats();
@@ -19,10 +20,11 @@ const initialTipo = Astro.url.searchParams.get("tipo") ?? "";
   <section class="section">
     <div class="wrap">
       <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: "Buscar" }]} />
-      <h1 class="page-title">Buscar sedes de atención</h1>
+      <h1 class="page-title">{heading}</h1>
       <p class="lede">
-        Filtra las {stats.sedes} oficinas de Becas Bienestar Benito Juárez por palabra clave,
-        estado o tipo (CABB, SARE u ORE). La búsqueda se hace en tu navegador.
+        Filtra las {stats.sedes} Oficinas de Becas para el Bienestar Benito Juárez por palabra
+        clave, estado, municipio o tipo de sede (CABB, SARE u ORE). La búsqueda se hace en tu
+        navegador; consulta dirección y contacto de cada oficina.
       </p>
       <form class="panel filter-bar" id="buscador" role="search">
         <div>

@@ -16,25 +16,28 @@ export const TIPO_META: Record<
     slug: "cabb",
     label: "Centro de Atención de Becas para el Bienestar",
     short: "CABB",
-    descripcion: "Oficinas locales de atención (centros comunitarios, módulos y oficinas de Bienestar).",
+    descripcion:
+      "Oficinas y sedes locales de atención (centros comunitarios, módulos y oficinas de Bienestar).",
     larga:
-      "Los CABB (Centros de Atención de Becas para el Bienestar) son sedes locales —centros comunitarios, módulos de orientación, domos y oficinas de Bienestar— donde las familias pueden recibir orientación sobre las Becas Benito Juárez.",
+      "Los CABB (Centros de Atención de Becas para el Bienestar) son oficinas y sedes locales —centros comunitarios, módulos de orientación, domos y oficinas de Bienestar— de las Oficinas de Becas para el Bienestar Benito Juárez donde las familias pueden recibir orientación.",
   },
   SARE: {
     slug: "sare",
     label: "Sede Auxiliar de Representación Estatal",
     short: "SARE",
-    descripcion: "Unidades regionales de apoyo de las Oficinas de Representación Estatal.",
+    descripcion:
+      "Sedes auxiliares regionales de las Oficinas de Representación Estatal (ORE).",
     larga:
-      "Las SARE (Sedes Auxiliares de Representación Estatal) son unidades de apoyo de las Oficinas de Representación. Atienden el programa en las regiones de cada entidad federativa y suelen concentrar más servicios que un CABB.",
+      "Las SARE (Sedes Auxiliares de Representación Estatal) apoyan a las Oficinas de Becas para el Bienestar Benito Juárez en cada región. Atienden el programa en las entidades federativas y suelen concentrar más servicios que un CABB.",
   },
   ORE: {
     slug: "ore",
     label: "Oficina de Representación Estatal",
     short: "ORE",
-    descripcion: "Representación estatal de la Coordinación Nacional de Becas Benito Juárez.",
+    descripcion:
+      "Oficina de Representación Estatal del programa Becas para el Bienestar Benito Juárez.",
     larga:
-      "Las ORE (Oficinas de Representación Estatal) son las unidades administrativas de la Coordinación Nacional de Becas para el Bienestar Benito Juárez en cada entidad. Coordinan la operación del programa a nivel estatal.",
+      "Las ORE (Oficinas de Representación Estatal) coordinan en cada entidad las Oficinas de Becas para el Bienestar Benito Juárez. Son la representación estatal de la Coordinación Nacional y articulan CABB y SARE del estado.",
   },
 };
 

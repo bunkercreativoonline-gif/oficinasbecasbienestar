@@ -13,6 +13,8 @@ import {
   breadcrumbJsonLd,
   itemListJsonLd,
   municipioDescription,
+  municipioH1,
+  municipioListName,
   municipioTitle,
 } from "../../../lib/schema";
 
@@ -39,6 +41,7 @@ const description = municipioDescription({
   sare: hub.sare,
   ore: hub.ore,
 });
+const heading = municipioH1(hub.display, hub.estadoDisplay);
 const crumbs = [
   { name: "Inicio", path: "/" },
   { name: hub.estadoDisplay, path: `/estado/${hub.estadoSlug}/` },
@@ -54,7 +57,7 @@ const mapSede = sedes.find((sede) => sede.lat !== null && sede.lng !== null) ?? 
   jsonLd={[
     breadcrumbJsonLd(crumbs),
     itemListJsonLd(
-      `Oficinas Becas Bienestar en ${hub.display}`,
+      municipioListName(hub.display, hub.estadoDisplay),
       hub.path,
       sedes.map((sede) => ({ name: sede.nombreDisplay, path: sede.path })),
     ),
@@ -69,12 +72,12 @@ const mapSede = sedes.find((sede) => sede.lat !== null && sede.lng !== null) ?? 
           { label: hub.display },
         ]}
       />
-      <h1 class="page-title">Oficinas Becas Bienestar en {hub.display}, {hub.estadoDisplay}</h1>
+      <h1 class="page-title">{heading}</h1>
       <p class="lede">
         {hub.count === 1
-          ? `Hay 1 sede de atención de Becas Benito Juárez registrada en ${hub.display}.`
-          : `Hay ${hub.count} sedes de atención de Becas Benito Juárez en ${hub.display}: ${hub.cabb} CABB, ${hub.sare} SARE y ${hub.ore} ORE.`}
-        Revisa dirección y contacto de cada oficina antes de trasladarte.
+          ? `Hay 1 oficina o sede de atención de Becas para el Bienestar Benito Juárez registrada en ${hub.display}, ${hub.estadoDisplay}.`
+          : `Hay ${hub.count} oficinas o sedes de atención de Becas para el Bienestar Benito Juárez en ${hub.display}, ${hub.estadoDisplay}: ${hub.cabb} CABB, ${hub.sare} SARE y ${hub.ore} ORE.`}
+        Consulta dirección y contacto de cada sede antes de acudir.
       </p>
       <div class="sede-hero">
         <div class="grid-cards" style="grid-template-columns: 1fr;">
@@ -88,7 +91,7 @@ const mapSede = sedes.find((sede) => sede.lat !== null && sede.lng !== null) ?? 
         />
       </div>
       <p class="meta" style="margin-top: 1.2rem;">
-        Ver también: <a href={`/estado/${hub.estadoSlug}/`}>todas las sedes de {hub.estadoDisplay}</a>
+        Ver también: <a href={`/estado/${hub.estadoSlug}/`}>todas las oficinas de {hub.estadoDisplay}</a>
         · {hub.count} {plural(hub.count, "resultado", "resultados")} en este municipio.
       </p>
       <div style="margin-top: 1.5rem;">
