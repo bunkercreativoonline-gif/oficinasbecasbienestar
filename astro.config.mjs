@@ -30,15 +30,15 @@ function sitemapPriority(url) {
     return { priority: 0.7, changefreq: "weekly" };
   }
   if (/\/estado\/[^/]+\/$/.test(url)) {
-    return { priority: 0.85, changefreq: "weekly" };
+    return { priority: 0.9, changefreq: "weekly" };
   }
   if (url.includes("/sede/")) {
-    return { priority: 0.55, changefreq: "monthly" };
+    return { priority: 0.6, changefreq: "monthly" };
   }
   if (url.includes("/buscar/")) {
-    return { priority: 0.5, changefreq: "monthly" };
+    return { priority: 0.4, changefreq: "monthly" };
   }
-  return { priority: 0.6, changefreq: "weekly" };
+  return { priority: 0.5, changefreq: "weekly" };
 }
 
 /** Copia sitemap-index.xml a sitemap.xml para quien espera esa URL. */

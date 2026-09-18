@@ -29,7 +29,7 @@ export function homeDescription(stats: {
   ore: number;
 }): string {
   return meta(
-    `Directorio de ${PRIMARY_PHRASE} en México: ${stats.sedes} sedes de atención (${stats.cabb} CABB, ${stats.sare} SARE y ${stats.ore} ORE) en ${stats.estados} estados. Consulta dirección y contacto.`,
+    `Directorio de ${PRIMARY_PHRASE} en México: ${stats.sedes} sedes (${stats.cabb} CABB, ${stats.sare} SARE, ${stats.ore} ORE) en ${stats.estados} estados. Consulta dirección y contacto.`,
   );
 }
 
@@ -86,7 +86,7 @@ export function municipioDescription(input: {
   const mix = parts.length ? ` Incluye ${parts.join(", ")}.` : "";
   const n = input.count === 1 ? "oficina" : "oficinas";
   return meta(
-    `${PRIMARY_PHRASE} en ${input.municipio}, ${input.estado}: ${input.count} ${n} o sedes de atención.${mix} Consulta dirección y tipo de sede.`,
+    `${PRIMARY_PHRASE} en ${input.municipio}, ${input.estado}: ${input.count} ${n}.${mix} Consulta dirección.`,
   );
 }
 
@@ -109,7 +109,7 @@ export function sedeDescription(sede: Sede): string {
       ? ` Correo ${sede.correos[0]}.`
       : "";
   return meta(
-    `${sede.nombreDisplay}, ${PRIMARY_PHRASE_SINGULAR.toLowerCase()} (${sede.tipoShort}) en ${sede.municipioDisplay}, ${sede.estadoDisplay}. Dirección: ${sede.direccion}. C.P. ${sede.cp}.${contact} Consulta ubicación.`,
+    `${PRIMARY_PHRASE_SINGULAR} (${sede.tipoShort}) ${sede.nombreDisplay} en ${sede.municipioDisplay}, ${sede.estadoDisplay}. Dirección: ${sede.direccion}. C.P. ${sede.cp}.${contact} Consulta ubicación.`,
   );
 }
 
@@ -126,7 +126,7 @@ export function tipoH1(tipo: TipoSede): string {
 export function tipoDescription(tipo: TipoSede, count: number): string {
   const metaTipo = TIPO_META[tipo];
   return meta(
-    `${count} ${metaTipo.label} (${metaTipo.short}) dentro de las ${PRIMARY_PHRASE} en México. ${metaTipo.descripcion} Consulta dirección por estado.`,
+    `${count} oficinas ${metaTipo.short} (${metaTipo.label}) de Becas para el Bienestar Benito Juárez en México. ${metaTipo.descripcion} Consulta dirección.`,
   );
 }
 
@@ -140,7 +140,7 @@ export function buscarH1(): string {
 
 export function buscarDescription(): string {
   return meta(
-    `Busca ${PRIMARY_PHRASE} por estado, municipio, tipo de sede (CABB, SARE u ORE) o palabra clave. Consulta dirección y contacto de cada oficina.`,
+    `Busca ${PRIMARY_PHRASE} por estado, municipio o tipo de sede (CABB, SARE u ORE). Consulta dirección y contacto.`,
   );
 }
 
