@@ -59,9 +59,9 @@ const crumbs = [
       <h1 class="page-title">Sedes de Becas Bienestar en {hub.display}</h1>
       <p class="lede">
         Hay {hub.count} {plural(hub.count, "sede", "sedes")} de atención de Becas para el
-        Bienestar Benito Juárez en {hub.display}
-        {hub.oficial !== hub.display ? ` (nombre oficial: ${hub.oficial})` : ""}:
-        {hub.cabb} CABB, {hub.sare} SARE y {hub.ore} ORE, repartidas en {hub.municipios}{" "}
+        Bienestar Benito Juárez en {hub.display}{hub.oficial !== hub.display
+          ? ` (nombre oficial: ${hub.oficial})`
+          : ""}: {hub.cabb} CABB, {hub.sare} SARE y {hub.ore} ORE, repartidas en {hub.municipios}{" "}
         {plural(hub.municipios, "municipio", "municipios")}.
       </p>
       <div class="panel" style="margin-bottom: 1.4rem;">
