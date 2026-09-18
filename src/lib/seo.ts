@@ -124,9 +124,13 @@ export function tipoH1(tipo: TipoSede): string {
 }
 
 export function tipoDescription(tipo: TipoSede, count: number): string {
-  const metaTipo = TIPO_META[tipo];
+  const extra = {
+    CABB: "centros locales de atención",
+    SARE: "sedes auxiliares regionales",
+    ORE: "representaciones estatales",
+  }[tipo];
   return meta(
-    `${count} oficinas ${metaTipo.short} (${metaTipo.label}) de Becas para el Bienestar Benito Juárez en México. ${metaTipo.descripcion} Consulta dirección.`,
+    `Listado de ${count} ${tipo} (${extra}) de las Oficinas de Becas para el Bienestar Benito Juárez en México. Consulta dirección por estado.`,
   );
 }
 
@@ -140,7 +144,7 @@ export function buscarH1(): string {
 
 export function buscarDescription(): string {
   return meta(
-    `Busca ${PRIMARY_PHRASE} por estado, municipio o tipo de sede (CABB, SARE u ORE). Consulta dirección y contacto.`,
+    `Busca ${PRIMARY_PHRASE} por estado, municipio o tipo de sede (CABB, SARE u ORE). Consulta dirección y contacto de cada oficina.`,
   );
 }
 
