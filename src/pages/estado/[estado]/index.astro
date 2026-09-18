@@ -14,6 +14,8 @@ import { plural } from "../../../lib/format";
 import {
   breadcrumbJsonLd,
   estadoDescription,
+  estadoH1,
+  estadoListName,
   estadoTitle,
   itemListJsonLd,
 } from "../../../lib/schema";
@@ -34,6 +36,7 @@ const sedes = getSedesByEstado(estado);
 const municipios = getMunicipioHubs(estado);
 const title = estadoTitle(hub.display, hub.count);
 const description = estadoDescription(hub);
+const heading = estadoH1(hub.display);
 const crumbs = [
   { name: "Inicio", path: "/" },
   { name: hub.display, path: hub.path },
@@ -47,7 +50,7 @@ const crumbs = [
   jsonLd={[
     breadcrumbJsonLd(crumbs),
     itemListJsonLd(
-      `Sedes de Becas Bienestar en ${hub.display}`,
+      estadoListName(hub.display),
       hub.path,
       sedes.map((sede) => ({ name: sede.nombreDisplay, path: sede.path })),
     ),
@@ -56,10 +59,10 @@ const crumbs = [
   <section class="section">
     <div class="wrap">
       <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: hub.display }]} />
-      <h1 class="page-title">Sedes de Becas Bienestar en {hub.display}</h1>
+      <h1 class="page-title">{heading}</h1>
       <p class="lede">
-        Hay {hub.count} {plural(hub.count, "sede", "sedes")} de atención de Becas para el
-        Bienestar Benito Juárez en {hub.display}{hub.oficial !== hub.display
+        Hay {hub.count} {plural(hub.count, "oficina", "oficinas")} o sedes de atención de
+        Becas para el Bienestar Benito Juárez en {hub.display}{hub.oficial !== hub.display
           ? ` (nombre oficial: ${hub.oficial})`
           : ""}: {hub.cabb} CABB, {hub.sare} SARE y {hub.ore} ORE, repartidas en {hub.municipios}{" "}
         {plural(hub.municipios, "municipio", "municipios")}.
@@ -68,7 +71,7 @@ const crumbs = [
         <SearchForm compact q={hub.display} />
       </div>
       <h2>Municipios con oficina</h2>
-      <p class="intro">Selecciona tu municipio para ver la dirección exacta.</p>
+      <p class="intro">Selecciona tu municipio para consultar la dirección de cada sede.</p>
       <div class="grid-estados">
         {
           municipios.map((muni) => (
@@ -81,7 +84,7 @@ const crumbs = [
           ))
         }
       </div>
-      <h2 style="margin-top: 2rem;">Todas las oficinas en {hub.display}</h2>
+      <h2 style="margin-top: 2rem;">Todas las oficinas de Becas para el Bienestar Benito Juárez en {hub.display}</h2>
       <div class="grid-cards">
         {sedes.map((sede) => <SedeCard sede={sede} />)}
       </div>

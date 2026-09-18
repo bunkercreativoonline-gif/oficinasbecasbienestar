@@ -70,7 +70,7 @@ export function plural(n: number, one: string, many: string): string {
   return n === 1 ? one : many;
 }
 
-export function truncate(text: string, max = 155): string {
+export function truncate(text: string, max = 160): string {
   const compact = text.replace(/\s+/g, " ").trim();
   if (compact.length <= max) return compact;
   return `${compact.slice(0, max - 1).trimEnd()}…`;

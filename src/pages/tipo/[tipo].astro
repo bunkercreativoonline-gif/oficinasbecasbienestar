@@ -10,6 +10,7 @@ import {
   breadcrumbJsonLd,
   itemListJsonLd,
   tipoDescription,
+  tipoH1,
   tipoTitle,
 } from "../../lib/schema";
 
@@ -33,6 +34,7 @@ const estados = getEstadoHubs()
 const path = `/tipo/${meta.slug}/`;
 const title = tipoTitle(tipo, sedes.length);
 const description = tipoDescription(tipo, sedes.length);
+const heading = tipoH1(tipo);
 const crumbs = [
   { name: "Inicio", path: "/" },
   { name: meta.short, path },
@@ -60,10 +62,11 @@ const crumbs = [
           {meta.short}
         </span>
       </p>
-      <h1 class="page-title">{meta.label} ({meta.short})</h1>
+      <h1 class="page-title">{heading}</h1>
       <p class="lede">
-        {meta.larga} Este directorio lista {sedes.length} {plural(sedes.length, "sede", "sedes")} {meta.short}
-        en {estados.length} {plural(estados.length, "estado", "estados")}.
+        {meta.larga} Este directorio lista {sedes.length} {plural(sedes.length, "oficina", "oficinas")}{" "}
+        {meta.short} de Becas para el Bienestar Benito Juárez en {estados.length}{" "}
+        {plural(estados.length, "estado", "estados")}.
       </p>
       <h2>Por estado</h2>
       <div class="grid-estados">
@@ -78,7 +81,7 @@ const crumbs = [
           ))
         }
       </div>
-      <h2 style="margin-top: 2rem;">Listado de sedes {meta.short}</h2>
+      <h2 style="margin-top: 2rem;">Listado de oficinas {meta.short}</h2>
       <div class="grid-cards">
         {sedes.map((sede) => <SedeCard sede={sede} />)}
       </div>

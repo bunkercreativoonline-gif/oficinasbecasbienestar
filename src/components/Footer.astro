@@ -1,21 +1,27 @@
 ---
-import { OFFICIAL_BUSCADOR, OFFICIAL_PROGRAMA, SITE_DOMAIN, SOURCE_UPDATED } from "../lib/site";
+import {
+  OFFICIAL_BUSCADOR,
+  OFFICIAL_PROGRAMA,
+  PRIMARY_PHRASE,
+  SITE_DOMAIN,
+  SOURCE_UPDATED,
+} from "../lib/site";
 ---
 
 <footer class="site-footer">
   <div class="wrap footer-grid">
     <div>
-      <strong>Oficinas Becas Bienestar</strong>
+      <strong>{PRIMARY_PHRASE}</strong>
       <p>
-        Directorio independiente de las sedes de atención de Becas para el Bienestar
-        Benito Juárez. No es un sitio oficial de gobierno.
+        Directorio independiente de oficinas y sedes de atención de Becas para el
+        Bienestar Benito Juárez. No es un sitio oficial de gobierno.
       </p>
     </div>
     <div>
       <strong>Directorio</strong>
       <p>
         <a href="/">Inicio</a><br />
-        <a href="/buscar/">Buscar sede</a><br />
+        <a href="/buscar/">Buscar oficina</a><br />
         <a href="/tipo/cabb/">CABB</a> ·
         <a href="/tipo/sare/">SARE</a> ·
         <a href="/tipo/ore/">ORE</a>

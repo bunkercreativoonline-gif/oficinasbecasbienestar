@@ -7,6 +7,7 @@ import { getEstadoHubs, getStats } from "../lib/sedes";
 import { TIPO_META } from "../lib/tipos";
 import {
   homeDescription,
+  homeH1,
   homeTitle,
   organizationJsonLd,
   websiteJsonLd,
@@ -16,15 +17,17 @@ const stats = getStats();
 const estados = getEstadoHubs();
 const title = homeTitle();
 const description = homeDescription(stats);
+const heading = homeH1();
 ---
 
 <BaseLayout title={title} description={description} path="/" jsonLd={[organizationJsonLd(), websiteJsonLd()]}>
   <section class="hero">
     <div class="wrap">
-      <h1>Sedes de atención de Becas Bienestar Benito Juárez</h1>
+      <h1>{heading}</h1>
       <p class="lede">
-        Directorio de las {stats.sedes} oficinas CABB, SARE y ORE en los {stats.estados} estados
-        de México. Busca por municipio o recorre el listado estatal para ver dirección, teléfono y mapa.
+        Directorio de las {stats.sedes} oficinas y sedes de atención CABB, SARE y ORE
+        de Becas para el Bienestar Benito Juárez en los {stats.estados} estados de México.
+        Busca por municipio o recorre el listado estatal para consultar dirección, teléfono y mapa.
       </p>
       <div class="stats" aria-label="Resumen del directorio">
         <div class="stat"><b>{stats.sedes}</b><span>Sedes de atención</span></div>
@@ -43,10 +46,10 @@ const description = homeDescription(stats);
 
   <section class="section">
     <div class="wrap">
-      <h2>Tipos de sede</h2>
+      <h2>Tipos de oficina o sede de atención</h2>
       <p class="intro">
-        El buscador oficial agrupa las oficinas en tres tipos. Usa estas páginas para entender
-        cuál te corresponde y ver el listado completo.
+        El buscador oficial agrupa las Oficinas de Becas para el Bienestar Benito Juárez en tres
+        tipos. Usa estas páginas para entender cuál te corresponde y ver el listado completo.
       </p>
       <div class="grid-tipos">
         <a class="tipo-card" href="/tipo/cabb/">
@@ -73,10 +76,10 @@ const description = homeDescription(stats);
 
   <section class="section" id="estados">
     <div class="wrap">
-      <h2>Sedes por estado</h2>
+      <h2>Oficinas por estado</h2>
       <p class="intro">
-        Elige tu entidad federativa para ver municipios y oficinas. Chiapas, Veracruz y Puebla
-        concentran el mayor número de sedes.
+        Elige tu entidad federativa para ver municipios y oficinas de Becas para el Bienestar
+        Benito Juárez. Chiapas, Veracruz y Puebla concentran el mayor número de sedes.
       </p>
       <EstadoGrid estados={estados} />
     </div>

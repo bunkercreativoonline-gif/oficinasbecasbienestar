@@ -6,6 +6,7 @@ export const GET: APIRoute = () => {
     "User-agent: *",
     "Allow: /",
     "Disallow: /404.html",
+    "Disallow: /404/",
     "",
     `Sitemap: ${SITE_URL}/sitemap-index.xml`,
     "",

@@ -1,0 +1,2 @@
+# Quien pide /sitemap.xml llega al índice canónico de @astrojs/sitemap.
+/sitemap.xml /sitemap-index.xml 301

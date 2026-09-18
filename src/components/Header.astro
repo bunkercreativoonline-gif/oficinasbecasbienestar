@@ -1,4 +1,6 @@
 ---
+import { PRIMARY_PHRASE } from "../lib/site";
+
 interface Props {
   path: string;
 }
@@ -24,8 +26,8 @@ const links = [
         <rect x="0" y="31" width="36" height="5" fill="#a57b12"></rect>
       </svg>
       <span class="brand-text">
-        <strong>Oficinas Becas Bienestar</strong>
-        <span>Sedes de atención Benito Juárez</span>
+        <strong>{PRIMARY_PHRASE}</strong>
+        <span>Directorio de sedes de atención en México</span>
       </span>
     </a>
     <nav class="nav" aria-label="Principal">
