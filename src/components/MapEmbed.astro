@@ -1,0 +1,41 @@
+---
+import { mapsDirUrl, osmEmbedUrl, osmViewUrl } from "../lib/format";
+
+interface Props {
+  lat: number | null;
+  lng: number | null;
+  nombre: string;
+  direccion: string;
+}
+
+const { lat, lng, nombre, direccion } = Astro.props;
+const hasMap = lat !== null && lng !== null;
+---
+
+{
+  hasMap ? (
+    <div>
+      <iframe
+        class="map-frame"
+        title={`Mapa de ${nombre}`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src={osmEmbedUrl(lat, lng)}
+      />
+      <p class="actions">
+        <a class="btn btn-primary" href={mapsDirUrl(lat, lng)} rel="noopener noreferrer">
+          Cómo llegar
+        </a>
+        <a class="btn btn-ghost" href={osmViewUrl(lat, lng)} rel="noopener noreferrer">
+          Abrir mapa
+        </a>
+      </p>
+    </div>
+  ) : (
+    <div class="empty">
+      <p>
+        No hay coordenadas GPS para esta sede. Dirección registrada: {direccion}.
+      </p>
+    </div>
+  )
+}

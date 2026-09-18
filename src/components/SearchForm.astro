@@ -1,0 +1,48 @@
+---
+import { getEstadoHubs } from "../lib/sedes";
+
+interface Props {
+  compact?: boolean;
+  q?: string;
+}
+
+const { compact = false, q = "" } = Astro.props;
+const estados = getEstadoHubs();
+---
+
+<form class={compact ? "filter-bar" : "form-row"} method="get" action="/buscar/" role="search">
+  <div>
+    <label for="q">Buscar sede</label>
+    <input
+      id="q"
+      name="q"
+      type="search"
+      value={q}
+      placeholder="Municipio, colonia o nombre de la oficina"
+      maxlength="120"
+    />
+  </div>
+  {
+    !compact && (
+      <div>
+        <label for="estado">Estado</label>
+        <select id="estado" name="estado">
+          <option value="">Todos los estados</option>
+          {estados.map((estado) => (
+            <option value={estado.slug}>{estado.display}</option>
+          ))}
+        </select>
+      </div>
+    )
+  }
+  <div class="actions" style={compact ? "margin: 0;" : undefined}>
+    <button class="btn btn-primary" type="submit">Buscar</button>
+    {
+      !compact && (
+        <a class="btn btn-ghost" href="/#estados">
+          Ver por estado
+        </a>
+      )
+    }
+  </div>
+</form>

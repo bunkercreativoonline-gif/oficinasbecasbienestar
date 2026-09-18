@@ -1,0 +1,37 @@
+---
+import type { Sede } from "../lib/sedes";
+
+interface Props {
+  sede: Pick<
+    Sede,
+    | "path"
+    | "nombreDisplay"
+    | "tipo"
+    | "tipoShort"
+    | "municipioDisplay"
+    | "estadoDisplay"
+    | "direccion"
+    | "cp"
+    | "telefonos"
+  >;
+}
+
+const { sede } = Astro.props;
+const badgeClass =
+  sede.tipo === "SARE" ? "badge badge-sare" : sede.tipo === "ORE" ? "badge badge-ore" : "badge";
+---
+
+<a class="card" href={sede.path}>
+  <span class={badgeClass}>{sede.tipoShort}</span>
+  <h3 style="margin: 0.45rem 0 0.35rem; font-size: 1.02rem; line-height: 1.3;">
+    {sede.nombreDisplay}
+  </h3>
+  <p class="meta" style="margin: 0;">
+    {sede.municipioDisplay}, {sede.estadoDisplay}
+    <br />
+    {sede.direccion}
+    <br />
+    C.P. {sede.cp}
+    {sede.telefonos[0] ? ` · Tel. ${sede.telefonos[0]}` : ""}
+  </p>
+</a>

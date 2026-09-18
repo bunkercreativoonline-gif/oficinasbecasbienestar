@@ -1,0 +1,99 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import Disclaimer from "../../../components/Disclaimer.astro";
+import SedeCard from "../../../components/SedeCard.astro";
+import MapEmbed from "../../../components/MapEmbed.astro";
+import {
+  getMunicipioHubs,
+  getSedesByMunicipio,
+} from "../../../lib/sedes";
+import { plural } from "../../../lib/format";
+import {
+  breadcrumbJsonLd,
+  itemListJsonLd,
+  municipioDescription,
+  municipioTitle,
+} from "../../../lib/schema";
+
+export function getStaticPaths() {
+  return getMunicipioHubs().map((hub) => ({
+    params: { estado: hub.estadoSlug, municipio: hub.slug },
+  }));
+}
+
+const { estado, municipio } = Astro.params;
+if (!estado || !municipio) throw new Error("Faltan parámetros");
+
+const hubs = getMunicipioHubs(estado);
+const hub = hubs.find((item) => item.slug === municipio);
+if (!hub) throw new Error(`Municipio no encontrado: ${estado}/${municipio}`);
+
+const sedes = getSedesByMunicipio(estado, municipio);
+const title = municipioTitle(hub.display, hub.estadoDisplay, hub.count);
+const description = municipioDescription({
+  municipio: hub.display,
+  estado: hub.estadoDisplay,
+  count: hub.count,
+  cabb: hub.cabb,
+  sare: hub.sare,
+  ore: hub.ore,
+});
+const crumbs = [
+  { name: "Inicio", path: "/" },
+  { name: hub.estadoDisplay, path: `/estado/${hub.estadoSlug}/` },
+  { name: hub.display, path: hub.path },
+];
+const mapSede = sedes.find((sede) => sede.lat !== null && sede.lng !== null) ?? sedes[0];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={hub.path}
+  jsonLd={[
+    breadcrumbJsonLd(crumbs),
+    itemListJsonLd(
+      `Oficinas Becas Bienestar en ${hub.display}`,
+      hub.path,
+      sedes.map((sede) => ({ name: sede.nombreDisplay, path: sede.path })),
+    ),
+  ]}
+>
+  <section class="section">
+    <div class="wrap">
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: hub.estadoDisplay, href: `/estado/${hub.estadoSlug}/` },
+          { label: hub.display },
+        ]}
+      />
+      <h1 class="page-title">Oficinas Becas Bienestar en {hub.display}, {hub.estadoDisplay}</h1>
+      <p class="lede">
+        {hub.count === 1
+          ? `Hay 1 sede de atención de Becas Benito Juárez registrada en ${hub.display}.`
+          : `Hay ${hub.count} sedes de atención de Becas Benito Juárez en ${hub.display}: ${hub.cabb} CABB, ${hub.sare} SARE y ${hub.ore} ORE.`}
+        Revisa dirección y contacto de cada oficina antes de trasladarte.
+      </p>
+      <div class="sede-hero">
+        <div class="grid-cards" style="grid-template-columns: 1fr;">
+          {sedes.map((sede) => <SedeCard sede={sede} />)}
+        </div>
+        <MapEmbed
+          lat={mapSede.lat}
+          lng={mapSede.lng}
+          nombre={`Sedes en ${hub.display}`}
+          direccion={mapSede.direccion}
+        />
+      </div>
+      <p class="meta" style="margin-top: 1.2rem;">
+        Ver también: <a href={`/estado/${hub.estadoSlug}/`}>todas las sedes de {hub.estadoDisplay}</a>
+        · {hub.count} {plural(hub.count, "resultado", "resultados")} en este municipio.
+      </p>
+      <div style="margin-top: 1.5rem;">
+        <Disclaimer />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
