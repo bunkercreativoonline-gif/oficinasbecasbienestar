@@ -72,6 +72,13 @@ export default defineConfig({
     format: "directory",
     inlineStylesheets: "always",
   },
+  vite: {
+    build: {
+      // Modern targets — avoid legacy polyfills flagged as unused/legacy JS.
+      target: ["chrome111", "edge111", "firefox111", "safari16.4"],
+      cssTarget: "safari16.4",
+    },
+  },
   integrations: [
     mdx(),
     sitemap({
