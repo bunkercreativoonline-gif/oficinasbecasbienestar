@@ -18,6 +18,8 @@ const hasMap = lat !== null && lng !== null;
       <iframe
         class="map-frame"
         title={`Mapa de ${nombre}`}
+        width="600"
+        height="280"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         src={osmEmbedUrl(lat, lng)}

@@ -4,6 +4,7 @@ import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Disclaimer from "../../components/Disclaimer.astro";
+import BlogHero from "../../components/BlogHero.astro";
 import BecasBienestarLink from "../../components/BecasBienestarLink.astro";
 import {
   BLOG_OG_HEIGHT,
@@ -93,8 +94,7 @@ const crumbs = [
       <p>
         <span class="badge">Guía</span>
       </p>
-      <img
-        class="blog-hero"
+      <BlogHero
         src={post.data.image}
         alt={post.data.imageAlt ?? post.data.title}
         width={BLOG_OG_WIDTH}

@@ -9,6 +9,7 @@ export const GET: APIRoute = () => {
     "Disallow: /404/",
     "",
     `Sitemap: ${SITE_URL}/sitemap-index.xml`,
+    `# Machine-readable site summary: ${SITE_URL}/llms.txt`,
     "",
   ].join("\n");
 

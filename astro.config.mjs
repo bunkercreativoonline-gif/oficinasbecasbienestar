@@ -67,13 +67,10 @@ export default defineConfig({
   trailingSlash: "always",
   output: "static",
   compressHTML: true,
-  prefetch: {
-    prefetchAll: true,
-    defaultStrategy: "hover",
-  },
+  prefetch: false,
   build: {
     format: "directory",
-    inlineStylesheets: "auto",
+    inlineStylesheets: "always",
   },
   integrations: [
     mdx(),

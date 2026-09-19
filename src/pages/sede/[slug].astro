@@ -127,11 +127,13 @@ const badgeClass =
               Más Oficinas de Becas para el Bienestar Benito Juárez en {sede.municipioDisplay}
               o en el resto de {sede.estadoDisplay}.
             </p>
-            <div class="grid-cards">
+            <ul class="grid-cards">
               {nearby.map((item) => (
-                <SedeCard sede={item} />
+                <li>
+                  <SedeCard sede={item} />
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         )
       }

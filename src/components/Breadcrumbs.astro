@@ -12,16 +12,17 @@ const { items } = Astro.props;
 ---
 
 <nav class="breadcrumbs" aria-label="Migas de pan">
-  {
-    items.map((item, index) => (
-      <>
-        {index > 0 && <span aria-hidden="true">/</span>}
-        {item.href && index < items.length - 1 ? (
-          <a href={item.href}>{item.label}</a>
-        ) : (
-          <span aria-current={index === items.length - 1 ? "page" : undefined}>{item.label}</span>
-        )}
-      </>
-    ))
-  }
+  <ol class="breadcrumbs-list">
+    {
+      items.map((item, index) => (
+        <li>
+          {item.href && index < items.length - 1 ? (
+            <a href={item.href}>{item.label}</a>
+          ) : (
+            <span aria-current={index === items.length - 1 ? "page" : undefined}>{item.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
 </nav>

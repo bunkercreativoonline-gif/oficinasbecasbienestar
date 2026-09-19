@@ -29,12 +29,12 @@ const heading = homeH1();
         de Becas para el Bienestar Benito Juárez en los {stats.estados} estados de México.
         Busca por municipio o recorre el listado estatal para consultar dirección, teléfono y mapa.
       </p>
-      <div class="stats" aria-label="Resumen del directorio">
-        <div class="stat"><b>{stats.sedes}</b><span>Sedes de atención</span></div>
-        <div class="stat"><b>{stats.estados}</b><span>Estados</span></div>
-        <div class="stat"><b>{stats.municipios}</b><span>Municipios</span></div>
-        <div class="stat"><b>{stats.sare}</b><span>SARE regionales</span></div>
-      </div>
+      <ul class="stats" aria-label="Resumen del directorio">
+        <li class="stat"><b>{stats.sedes}</b><span>Sedes de atención</span></li>
+        <li class="stat"><b>{stats.estados}</b><span>Estados</span></li>
+        <li class="stat"><b>{stats.municipios}</b><span>Municipios</span></li>
+        <li class="stat"><b>{stats.sare}</b><span>SARE regionales</span></li>
+      </ul>
     </div>
   </section>
 
@@ -51,26 +51,32 @@ const heading = homeH1();
         El buscador oficial agrupa las Oficinas de Becas para el Bienestar Benito Juárez en tres
         tipos. Usa estas páginas para entender cuál te corresponde y ver el listado completo.
       </p>
-      <div class="grid-tipos">
-        <a class="tipo-card" href="/tipo/cabb/">
-          <span class="badge">CABB</span>
-          <b>{TIPO_META.CABB.label}</b>
-          <span class="muted">{stats.cabb} sedes locales</span>
-          <p class="meta">{TIPO_META.CABB.descripcion}</p>
-        </a>
-        <a class="tipo-card" href="/tipo/sare/">
-          <span class="badge badge-sare">SARE</span>
-          <b>{TIPO_META.SARE.label}</b>
-          <span class="muted">{stats.sare} sedes regionales</span>
-          <p class="meta">{TIPO_META.SARE.descripcion}</p>
-        </a>
-        <a class="tipo-card" href="/tipo/ore/">
-          <span class="badge badge-ore">ORE</span>
-          <b>{TIPO_META.ORE.label}</b>
-          <span class="muted">{stats.ore} representaciones estatales</span>
-          <p class="meta">{TIPO_META.ORE.descripcion}</p>
-        </a>
-      </div>
+      <ul class="grid-tipos">
+        <li>
+          <a class="tipo-card" href="/tipo/cabb/">
+            <span class="badge">CABB</span>
+            <b>{TIPO_META.CABB.label}</b>
+            <span class="muted">{stats.cabb} sedes locales</span>
+            <p class="meta">{TIPO_META.CABB.descripcion}</p>
+          </a>
+        </li>
+        <li>
+          <a class="tipo-card" href="/tipo/sare/">
+            <span class="badge badge-sare">SARE</span>
+            <b>{TIPO_META.SARE.label}</b>
+            <span class="muted">{stats.sare} sedes regionales</span>
+            <p class="meta">{TIPO_META.SARE.descripcion}</p>
+          </a>
+        </li>
+        <li>
+          <a class="tipo-card" href="/tipo/ore/">
+            <span class="badge badge-ore">ORE</span>
+            <b>{TIPO_META.ORE.label}</b>
+            <span class="muted">{stats.ore} representaciones estatales</span>
+            <p class="meta">{TIPO_META.ORE.descripcion}</p>
+          </a>
+        </li>
+      </ul>
     </div>
   </section>
 
