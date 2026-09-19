@@ -3,6 +3,7 @@ import {
   SITE_NAME_SHORT,
   SITE_TAGLINE,
   SITE_URL,
+  assetUrl,
 } from "./site";
 import type { Sede } from "./sedes";
 import { sedeDescription } from "./seo";
@@ -152,8 +153,11 @@ export function articleJsonLd(input: {
   path: string;
   pubDate: Date;
   updatedDate?: Date;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }) {
-  return {
+  const data: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: input.title,
@@ -174,6 +178,18 @@ export function articleJsonLd(input: {
       url: SITE_URL,
     },
   };
+
+  if (input.image) {
+    const image: Record<string, unknown> = {
+      "@type": "ImageObject",
+      url: assetUrl(input.image),
+    };
+    if (input.imageWidth) image.width = input.imageWidth;
+    if (input.imageHeight) image.height = input.imageHeight;
+    data.image = image;
+  }
+
+  return data;
 }
 
 export function itemListJsonLd(

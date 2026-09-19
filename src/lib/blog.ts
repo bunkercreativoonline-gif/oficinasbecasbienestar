@@ -1,5 +1,8 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
+export const BLOG_OG_WIDTH = 1200;
+export const BLOG_OG_HEIGHT = 630;
+
 export type BlogPost = CollectionEntry<"blog">;
 
 export function blogPath(id: string): string {
