@@ -8,6 +8,12 @@ import type { Sede } from "./sedes";
 import { sedeDescription } from "./seo";
 
 export {
+  blogIndexDescription,
+  blogIndexH1,
+  blogIndexTitle,
+  blogPostDescription,
+  blogPostH1,
+  blogPostTitle,
   buscarDescription,
   buscarH1,
   buscarTitle,
@@ -138,6 +144,36 @@ export function sedeJsonLd(sede: Sede) {
   }
 
   return data;
+}
+
+export function articleJsonLd(input: {
+  title: string;
+  description: string;
+  path: string;
+  pubDate: Date;
+  updatedDate?: Date;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: input.title,
+    description: input.description,
+    datePublished: input.pubDate.toISOString(),
+    dateModified: (input.updatedDate ?? input.pubDate).toISOString(),
+    inLanguage: "es-MX",
+    mainEntityOfPage: canonical(input.path),
+    url: canonical(input.path),
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    author: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  };
 }
 
 export function itemListJsonLd(
