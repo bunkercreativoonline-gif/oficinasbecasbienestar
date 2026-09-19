@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SearchForm from "../components/SearchForm.astro";
 import EstadoGrid from "../components/EstadoGrid.astro";
+import Disclaimer from "../components/Disclaimer.astro";
 import { getEstadoHubs } from "../lib/sedes";
 import { notFoundDescription, notFoundH1, notFoundTitle } from "../lib/schema";
 
@@ -27,6 +28,9 @@ const estados = getEstadoHubs();
       </div>
       <h2>Ir a un estado</h2>
       <EstadoGrid estados={estados} />
+      <div style="margin-top: 1.5rem;">
+        <Disclaimer />
+      </div>
     </div>
   </section>
 </BaseLayout>
