@@ -162,6 +162,32 @@ export function notFoundDescription(): string {
   );
 }
 
+export function blogIndexTitle(): string {
+  return `Noticias y guía | ${PRIMARY_PHRASE}`;
+}
+
+export function blogIndexH1(): string {
+  return `Noticias y guía de ${PRIMARY_PHRASE}`;
+}
+
+export function blogIndexDescription(): string {
+  return meta(
+    `Noticias y guía de ${PRIMARY_PHRASE}: cómo hablar con un asesor, preparar tu visita y localizar una sede de atención.`,
+  );
+}
+
+export function blogPostTitle(title: string): string {
+  return `${title} | ${PRIMARY_PHRASE}`;
+}
+
+export function blogPostH1(title: string): string {
+  return title;
+}
+
+export function blogPostDescription(description: string): string {
+  return meta(description);
+}
+
 export function estadoListName(display: string): string {
   return `${PRIMARY_PHRASE} en ${display}`;
 }

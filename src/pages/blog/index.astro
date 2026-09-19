@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Disclaimer from "../../components/Disclaimer.astro";
+import { blogPath, formatBlogDate, getPublishedPosts } from "../../lib/blog";
+import {
+  blogIndexDescription,
+  blogIndexH1,
+  blogIndexTitle,
+  breadcrumbJsonLd,
+  itemListJsonLd,
+} from "../../lib/schema";
+
+const posts = await getPublishedPosts();
+const path = "/blog/";
+const title = blogIndexTitle();
+const description = blogIndexDescription();
+const heading = blogIndexH1();
+const crumbs = [
+  { name: "Inicio", path: "/" },
+  { name: "Noticias", path },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  jsonLd={[
+    breadcrumbJsonLd(crumbs),
+    itemListJsonLd(
+      title,
+      path,
+      posts.map((post) => ({ name: post.data.title, path: blogPath(post.id) })),
+    ),
+  ]}
+>
+  <section class="section">
+    <div class="wrap">
+      <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: "Noticias" }]} />
+      <h1 class="page-title">{heading}</h1>
+      <p class="lede">
+        Guías prácticas para localizar Oficinas de Becas para el Bienestar Benito Juárez
+        y resolver dudas de estatus, pagos o visita a una sede. Este directorio es
+        independiente: no gestiona citas ni es un portal de gobierno.
+      </p>
+      {
+        posts.length === 0 ? (
+          <p class="empty">Aún no hay artículos publicados.</p>
+        ) : (
+          <div class="grid-cards">
+            {posts.map((post) => (
+              <a class="card" href={blogPath(post.id)}>
+                <span class="badge">Guía</span>
+                <h2 class="blog-card-title">{post.data.title}</h2>
+                <p class="meta">
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {formatBlogDate(post.data.pubDate)}
+                  </time>
+                </p>
+                <p class="blog-card-excerpt">{post.data.description}</p>
+              </a>
+            ))}
+          </div>
+        )
+      }
+      <div style="margin-top: 1.5rem;">
+        <Disclaimer />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

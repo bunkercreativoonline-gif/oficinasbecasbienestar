@@ -15,6 +15,8 @@ Este proyecto **no es un sitio oficial de gobierno**. Los datos se tomaron del [
 | `/estado/[estado]/[municipio]/` | Oficinas del municipio |
 | `/sede/[slug]/` | Ficha de cada oficina (711) |
 | `/buscar/` | Filtro en el cliente |
+| `/blog/` | Índice de noticias y guías |
+| `/blog/[slug]/` | Artículo (colecciones de contenido en `src/content/blog/`) |
 | `/tipo/cabb/`, `/tipo/sare/`, `/tipo/ore/` | Listados por tipo de sede |
 | `/robots.txt`, `/sitemap-index.xml`, `/sitemap.xml` | SEO técnico (`/sitemap.xml` es alias del índice) |
 | `404` | Página no encontrada |
@@ -73,6 +75,7 @@ Canonical y sitemap usan `https://oficinasbecasbienestar.com.mx`.
 
 - [Astro](https://astro.build) + TypeScript
 - Salida estática (`output: 'static'`)
+- Colecciones de contenido (`src/content.config.ts`) y `@astrojs/mdx` para el blog
 - `@astrojs/sitemap`
 
 ## Licencia de datos

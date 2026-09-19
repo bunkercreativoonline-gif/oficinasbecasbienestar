@@ -1,0 +1,89 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Disclaimer from "../../components/Disclaimer.astro";
+import { blogIsoDate, blogPath, formatBlogDate, getPublishedPosts } from "../../lib/blog";
+import {
+  articleJsonLd,
+  blogPostDescription,
+  blogPostH1,
+  blogPostTitle,
+  breadcrumbJsonLd,
+} from "../../lib/schema";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const path = blogPath(post.id);
+const title = blogPostTitle(post.data.title);
+const description = blogPostDescription(post.data.description);
+const heading = blogPostH1(post.data.title);
+const crumbs = [
+  { name: "Inicio", path: "/" },
+  { name: "Noticias", path: "/blog/" },
+  { name: post.data.title, path },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  ogType="article"
+  publishedTime={post.data.pubDate}
+  jsonLd={[
+    breadcrumbJsonLd(crumbs),
+    articleJsonLd({
+      title: post.data.title,
+      description,
+      path,
+      pubDate: post.data.pubDate,
+      updatedDate: post.data.updatedDate,
+    }),
+  ]}
+>
+  <article class="section">
+    <div class="wrap blog-article">
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "Noticias", href: "/blog/" },
+          { label: post.data.title },
+        ]}
+      />
+      <p>
+        <span class="badge">Guía</span>
+      </p>
+      <h1 class="page-title">{heading}</h1>
+      <p class="blog-byline meta">
+        Publicado el{" "}
+        <time datetime={blogIsoDate(post.data.pubDate)}>{formatBlogDate(post.data.pubDate)}</time>
+        {
+          post.data.updatedDate && (
+            <>
+              {" "}
+              · Actualizado el{" "}
+              <time datetime={blogIsoDate(post.data.updatedDate)}>
+                {formatBlogDate(post.data.updatedDate)}
+              </time>
+            </>
+          )
+        }
+      </p>
+      <div class="blog-prose">
+        <Content />
+      </div>
+      <div style="margin-top: 1.5rem;">
+        <Disclaimer />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

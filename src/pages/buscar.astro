@@ -150,5 +150,16 @@ const initialTipo = Astro.url.searchParams.get("tipo") ?? "";
   qInput?.addEventListener("input", apply);
   estadoInput?.addEventListener("change", apply);
   tipoInput?.addEventListener("change", apply);
+
+  const incoming = new URLSearchParams(window.location.search);
+  if (qInput && "value" in qInput && incoming.get("q")) {
+    qInput.value = incoming.get("q") ?? "";
+  }
+  if (estadoInput && "value" in estadoInput && incoming.get("estado")) {
+    estadoInput.value = incoming.get("estado") ?? "";
+  }
+  if (tipoInput && "value" in tipoInput && incoming.get("tipo")) {
+    tipoInput.value = incoming.get("tipo") ?? "";
+  }
   apply();
 </script>

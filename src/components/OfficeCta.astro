@@ -1,0 +1,39 @@
+---
+import { PRIMARY_PHRASE, SITE_URL } from "../lib/site";
+
+interface Props {
+  heading?: string;
+}
+
+const { heading = "Acude a una oficina en tu ciudad" } = Astro.props;
+---
+
+<aside class="panel blog-cta" aria-label="Localizar una oficina en tu ciudad">
+  <p><span class="badge">Directorio</span></p>
+  <h2>{heading}</h2>
+  <p>
+    Si tu caso necesita papeles, una incidencia o una explicación más clara, suele
+    convenir ir a una sede de atención. Este sitio es un directorio independiente de
+    {PRIMARY_PHRASE}: las direcciones salen del catálogo público de sedes y debes
+    confirmarlas antes de visitar.
+  </p>
+  <form class="filter-bar" method="get" action="/buscar/" role="search">
+    <div>
+      <label for="cta-q">Municipio, colonia o estado</label>
+      <input
+        id="cta-q"
+        name="q"
+        type="search"
+        placeholder="Escribe tu municipio"
+        maxlength="120"
+      />
+    </div>
+    <div class="actions" style="margin: 0;">
+      <button class="btn btn-primary" type="submit">Buscar oficina</button>
+    </div>
+  </form>
+  <div class="actions">
+    <a class="btn btn-primary" href={SITE_URL + "/"}>Ver directorio de oficinas</a>
+    <a class="btn btn-ghost" href="/buscar/">Buscar por municipio</a>
+  </div>
+</aside>

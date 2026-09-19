@@ -2,6 +2,7 @@ import { copyFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
+import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
 const SITE = "https://oficinasbecasbienestar.com.mx";
@@ -38,6 +39,9 @@ function sitemapPriority(url) {
   if (url.includes("/buscar/")) {
     return { priority: 0.4, changefreq: "monthly" };
   }
+  if (url === `${SITE}/blog/` || /\/blog\/[^/]+\/$/.test(url)) {
+    return { priority: 0.7, changefreq: "weekly" };
+  }
   return { priority: 0.5, changefreq: "weekly" };
 }
 
@@ -72,6 +76,7 @@ export default defineConfig({
     inlineStylesheets: "auto",
   },
   integrations: [
+    mdx(),
     sitemap({
       changefreq: "weekly",
       lastmod: new Date("2026-09-18"),
