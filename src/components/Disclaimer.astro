@@ -1,5 +1,16 @@
 ---
 import { OFFICIAL_BUSCADOR, SOURCE_UPDATED } from "../lib/site";
+import BecasBienestarLink from "./BecasBienestarLink.astro";
+
+interface Props {
+  /**
+   * When false, skip the outbound Becas Bienestar sentence. Use this on pages
+   * that already linked https://becasmexico.org/becas-bienestar/ in the body.
+   */
+  linkBecasBienestar?: boolean;
+}
+
+const { linkBecasBienestar = true } = Astro.props;
 ---
 
 <aside class="disclaimer" role="note">
@@ -8,4 +19,13 @@ import { OFFICIAL_BUSCADOR, SOURCE_UPDATED } from "../lib/site";
   de la Coordinación Nacional de Becas para el Bienestar Benito Juárez ({SOURCE_UPDATED}).
   Horarios, teléfonos y vigencia pueden cambiar: confírmalos en el sitio oficial antes de acudir.
   Este sitio no gestiona citas ni es un portal de gobierno.
+  {
+    linkBecasBienestar ? (
+      <>
+        {" "}
+        Para más contexto sobre <BecasBienestarLink />, consulta fuentes independientes
+        y verifica siempre en el sitio oficial.
+      </>
+    ) : null
+  }
 </aside>

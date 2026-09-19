@@ -1,0 +1,11 @@
+---
+import { BECAS_BIENESTAR_URL } from "../lib/becasBienestar";
+
+interface Props {
+  text?: string;
+}
+
+const { text = "Becas Bienestar" } = Astro.props;
+---
+
+<a href={BECAS_BIENESTAR_URL}>{text}</a>

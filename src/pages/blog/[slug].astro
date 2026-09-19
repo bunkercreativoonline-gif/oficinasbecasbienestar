@@ -1,8 +1,10 @@
 ---
+import { readFileSync } from "node:fs";
 import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Disclaimer from "../../components/Disclaimer.astro";
+import BecasBienestarLink from "../../components/BecasBienestarLink.astro";
 import {
   BLOG_OG_HEIGHT,
   BLOG_OG_WIDTH,
@@ -10,6 +12,7 @@ import {
   blogPath,
   formatBlogDate,
   getPublishedPosts,
+  type BlogPost,
 } from "../../lib/blog";
 import {
   articleJsonLd,
@@ -18,6 +21,7 @@ import {
   blogPostTitle,
   breadcrumbJsonLd,
 } from "../../lib/schema";
+import { hasBecasBienestarOutboundLink } from "../../lib/becasBienestar";
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -27,12 +31,25 @@ export async function getStaticPaths() {
   }));
 }
 
+function postHasBecasBienestarLink(post: BlogPost): boolean {
+  const chunks = [post.body ?? "", post.rendered?.html ?? ""];
+  if (post.filePath) {
+    try {
+      chunks.push(readFileSync(post.filePath, "utf8"));
+    } catch {
+      /* source may be unavailable during some renders */
+    }
+  }
+  return chunks.some((chunk) => hasBecasBienestarOutboundLink(chunk));
+}
+
 const { post } = Astro.props;
 const { Content } = await render(post);
 const path = blogPath(post.id);
 const title = blogPostTitle(post.data.title);
 const description = blogPostDescription(post.data.description);
 const heading = blogPostH1(post.data.title);
+const alreadyLinkedBecasBienestar = postHasBecasBienestarLink(post);
 const crumbs = [
   { name: "Inicio", path: "/" },
   { name: "Noticias", path: "/blog/" },
@@ -84,6 +101,14 @@ const crumbs = [
         height={BLOG_OG_HEIGHT}
       />
       <h1 class="page-title">{heading}</h1>
+      {
+        alreadyLinkedBecasBienestar ? null : (
+          <p class="lede">
+            Guía para pedir orientación sobre <BecasBienestarLink /> y decidir cuándo acudir a una
+            sede de atención.
+          </p>
+        )
+      }
       <p class="blog-byline meta">
         Publicado el{" "}
         <time datetime={blogIsoDate(post.data.pubDate)}>{formatBlogDate(post.data.pubDate)}</time>
@@ -103,7 +128,7 @@ const crumbs = [
         <Content />
       </div>
       <div style="margin-top: 1.5rem;">
-        <Disclaimer />
+        <Disclaimer linkBecasBienestar={!alreadyLinkedBecasBienestar} />
       </div>
     </div>
   </article>
