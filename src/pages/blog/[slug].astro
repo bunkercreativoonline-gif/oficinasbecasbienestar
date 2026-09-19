@@ -3,7 +3,14 @@ import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Disclaimer from "../../components/Disclaimer.astro";
-import { blogIsoDate, blogPath, formatBlogDate, getPublishedPosts } from "../../lib/blog";
+import {
+  BLOG_OG_HEIGHT,
+  BLOG_OG_WIDTH,
+  blogIsoDate,
+  blogPath,
+  formatBlogDate,
+  getPublishedPosts,
+} from "../../lib/blog";
 import {
   articleJsonLd,
   blogPostDescription,
@@ -39,6 +46,10 @@ const crumbs = [
   path={path}
   ogType="article"
   publishedTime={post.data.pubDate}
+  image={post.data.image}
+  imageAlt={post.data.imageAlt ?? post.data.title}
+  imageWidth={BLOG_OG_WIDTH}
+  imageHeight={BLOG_OG_HEIGHT}
   jsonLd={[
     breadcrumbJsonLd(crumbs),
     articleJsonLd({
@@ -47,6 +58,9 @@ const crumbs = [
       path,
       pubDate: post.data.pubDate,
       updatedDate: post.data.updatedDate,
+      image: post.data.image,
+      imageWidth: BLOG_OG_WIDTH,
+      imageHeight: BLOG_OG_HEIGHT,
     }),
   ]}
 >
@@ -62,6 +76,13 @@ const crumbs = [
       <p>
         <span class="badge">Guía</span>
       </p>
+      <img
+        class="blog-hero"
+        src={post.data.image}
+        alt={post.data.imageAlt ?? post.data.title}
+        width={BLOG_OG_WIDTH}
+        height={BLOG_OG_HEIGHT}
+      />
       <h1 class="page-title">{heading}</h1>
       <p class="blog-byline meta">
         Publicado el{" "}

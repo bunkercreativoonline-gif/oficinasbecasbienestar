@@ -24,3 +24,9 @@ export const OFFICIAL_PROGRAMA =
 export const SOURCE_UPDATED = "septiembre 2026";
 
 export const LOCALE = "es-MX";
+
+/** Absolute URL for a public asset. Does not force a trailing slash. */
+export function assetUrl(path: string): string {
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+}
