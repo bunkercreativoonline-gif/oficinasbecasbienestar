@@ -36,7 +36,6 @@ const url = canonical(path);
 const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 const imageUrl = image ? assetUrl(image) : undefined;
 const adsenseClient = "ca-pub-9573612374074710";
-const gaId = "G-STXSHL7YRH";
 ---
 
 <!doctype html>
@@ -100,13 +99,13 @@ const gaId = "G-STXSHL7YRH";
       crossorigin="anonymous"
       data-overlays="bottom"
       is:inline></script>
-    <!-- Google tag (gtag.js) — property stays in markup; script loads after idle -->
-    <script is:inline define:vars={{ gaId }}>
+    <!-- Google tag (gtag.js) — property G-STXSHL7YRH stays in markup; script loads after idle -->
+    <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      window.__GA_MEASUREMENT_ID = gaId;
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
+      };
+      window.__GA_MEASUREMENT_ID = "G-STXSHL7YRH";
     </script>
   </head>
   <body>
@@ -139,8 +138,8 @@ const gaId = "G-STXSHL7YRH";
           script.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
           script.async = true;
           document.head.appendChild(script);
-          gtag("js", new Date());
-          gtag("config", id, { transport_type: "beacon" });
+          window.gtag("js", new Date());
+          window.gtag("config", id, { transport_type: "beacon" });
         }
 
         function afterFirstPaint(fn) {
