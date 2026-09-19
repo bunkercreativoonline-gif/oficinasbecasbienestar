@@ -69,22 +69,28 @@ const crumbs = [
         {plural(estados.length, "estado", "estados")}.
       </p>
       <h2>Por estado</h2>
-      <div class="grid-estados">
+      <ul class="grid-estados">
         {
           estados.map((hub) => (
-            <a class="estado-card" href={hub.path}>
-              <b>{hub.display}</b>
-              <span class="muted">
-                {hub.tipoCount} {plural(hub.tipoCount, "sede", "sedes")} {meta.short}
-              </span>
-            </a>
+            <li>
+              <a class="estado-card" href={hub.path}>
+                <b>{hub.display}</b>
+                <span class="muted">
+                  {hub.tipoCount} {plural(hub.tipoCount, "sede", "sedes")} {meta.short}
+                </span>
+              </a>
+            </li>
           ))
         }
-      </div>
+      </ul>
       <h2 style="margin-top: 2rem;">Listado de oficinas {meta.short}</h2>
-      <div class="grid-cards">
-        {sedes.map((sede) => <SedeCard sede={sede} />)}
-      </div>
+      <ul class="grid-cards">
+        {sedes.map((sede) => (
+          <li>
+            <SedeCard sede={sede} />
+          </li>
+        ))}
+      </ul>
       <div style="margin-top: 1.5rem;">
         <Disclaimer />
       </div>

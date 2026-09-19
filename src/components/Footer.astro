@@ -10,31 +10,37 @@ import {
 
 <footer class="site-footer">
   <div class="wrap footer-grid">
-    <div>
-      <strong>{PRIMARY_PHRASE}</strong>
+    <section>
+      <h2>{PRIMARY_PHRASE}</h2>
       <p>
         Directorio independiente de oficinas y sedes de atención de Becas para el
         Bienestar Benito Juárez. No es un sitio oficial de gobierno.
       </p>
-    </div>
-    <div>
-      <strong>Directorio</strong>
-      <p>
-        <a href="/">Inicio</a><br />
-        <a href="/buscar/">Buscar oficina</a><br />
-        <a href="/blog/">Noticias</a><br />
-        <a href="/tipo/cabb/">CABB</a> ·
-        <a href="/tipo/sare/">SARE</a> ·
-        <a href="/tipo/ore/">ORE</a>
-      </p>
-    </div>
-    <div>
-      <strong>Fuentes oficiales</strong>
-      <p>
-        <a href={OFFICIAL_BUSCADOR} rel="noopener noreferrer">Buscador de sedes</a><br />
-        <a href={OFFICIAL_PROGRAMA} rel="noopener noreferrer">Programa en gob.mx</a>
-      </p>
-    </div>
+    </section>
+    <nav aria-label="Directorio">
+      <h2>Directorio</h2>
+      <ul class="footer-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/buscar/">Buscar oficina</a></li>
+        <li><a href="/blog/">Noticias</a></li>
+        <li>
+          <a href="/tipo/cabb/">CABB</a> ·
+          <a href="/tipo/sare/">SARE</a> ·
+          <a href="/tipo/ore/">ORE</a>
+        </li>
+      </ul>
+    </nav>
+    <nav aria-label="Fuentes oficiales">
+      <h2>Fuentes oficiales</h2>
+      <ul class="footer-links">
+        <li>
+          <a href={OFFICIAL_BUSCADOR} rel="noopener noreferrer">Buscador de sedes</a>
+        </li>
+        <li>
+          <a href={OFFICIAL_PROGRAMA} rel="noopener noreferrer">Programa en gob.mx</a>
+        </li>
+      </ul>
+    </nav>
   </div>
   <div class="wrap footer-copy">
     Datos tomados del buscador oficial ({SOURCE_UPDATED}). Verifica la información antes de acudir.

@@ -26,14 +26,36 @@ const initialTipo = Astro.url.searchParams.get("tipo") ?? "";
         clave, estado, municipio o tipo de sede (CABB, SARE u ORE). La búsqueda se hace en tu
         navegador; consulta dirección y contacto de cada oficina.
       </p>
-      <form class="panel filter-bar" id="buscador" role="search">
+      <form
+        class="panel filter-bar"
+        id="buscador"
+        role="search"
+        method="get"
+        action="/buscar/"
+        aria-label="Filtrar oficinas del directorio"
+        toolname="filtrar_oficinas"
+        tooldescription="Filtra las Oficinas de Becas para el Bienestar Benito Juárez por palabra clave, estado y tipo de sede."
+        toolautosubmit
+      >
         <div>
           <label for="q">Palabra clave</label>
-          <input id="q" name="q" type="search" value={initialQ} placeholder="Municipio, colonia o nombre" />
+          <input
+            id="q"
+            name="q"
+            type="search"
+            value={initialQ}
+            placeholder="Municipio, colonia o nombre"
+            enterkeyhint="search"
+            toolparamdescription="Municipio, colonia, código postal o nombre de la oficina"
+          />
         </div>
         <div>
           <label for="estado">Estado</label>
-          <select id="estado" name="estado">
+          <select
+            id="estado"
+            name="estado"
+            toolparamdescription="Estado de México; vacío para todos"
+          >
             <option value="">Todos</option>
             {
               estados.map((estado) => (
@@ -46,7 +68,11 @@ const initialTipo = Astro.url.searchParams.get("tipo") ?? "";
         </div>
         <div>
           <label for="tipo">Tipo</label>
-          <select id="tipo" name="tipo">
+          <select
+            id="tipo"
+            name="tipo"
+            toolparamdescription="Tipo de sede: CABB, SARE, ORE o vacío para todos"
+          >
             <option value="">Todos</option>
             <option value="CABB" selected={initialTipo === "CABB"}>CABB</option>
             <option value="SARE" selected={initialTipo === "SARE"}>SARE</option>
@@ -58,7 +84,7 @@ const initialTipo = Astro.url.searchParams.get("tipo") ?? "";
         </div>
       </form>
       <p class="results-meta" id="conteo" aria-live="polite"></p>
-      <div class="grid-cards" id="resultados"></div>
+      <ul class="grid-cards" id="resultados"></ul>
       <p class="empty" id="vacio" hidden>
         No hay sedes con esos filtros. Prueba con el municipio o el estado.
       </p>
@@ -105,17 +131,17 @@ const initialTipo = Astro.url.searchParams.get("tipo") ?? "";
     results.innerHTML = list
       .slice(0, 120)
       .map((sede) => {
-        return `<a class="card" href="${escapeHtml(sede.path)}">
+        return `<li><a class="card" href="${escapeHtml(sede.path)}">
           <span class="${badgeClass(sede.tipo)}">${escapeHtml(sede.tipo)}</span>
           <h2 style="margin:0.45rem 0 0.35rem;font-size:1.02rem;line-height:1.3;">${escapeHtml(sede.nombre)}</h2>
           <p class="meta" style="margin:0;">${escapeHtml(sede.municipio)}, ${escapeHtml(sede.estado)}<br>${escapeHtml(sede.direccion)}<br>C.P. ${escapeHtml(sede.cp)}</p>
-        </a>`;
+        </a></li>`;
       })
       .join("");
     if (list.length > 120) {
       results.insertAdjacentHTML(
         "beforeend",
-        `<p class="meta">Mostrando 120 de ${list.length}. Añade un municipio o estado para acotar.</p>`,
+        `<li class="meta">Mostrando 120 de ${list.length}. Añade un municipio o estado para acotar.</li>`,
       );
     }
   }

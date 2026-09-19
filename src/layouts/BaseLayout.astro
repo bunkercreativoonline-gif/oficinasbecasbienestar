@@ -35,6 +35,7 @@ const {
 const url = canonical(path);
 const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 const imageUrl = image ? assetUrl(image) : undefined;
+const adsenseClient = "ca-pub-9573612374074710";
 ---
 
 <!doctype html>
@@ -51,7 +52,10 @@ const imageUrl = image ? assetUrl(image) : undefined;
     )}
     <link rel="canonical" href={url} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="describedby" href="/llms.txt" title="llms.txt" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
     <meta name="theme-color" content="#06251e" />
+    <meta name="google-adsense-account" content={adsenseClient} />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="es_MX" />
     <meta property="og:site_name" content={SITE_NAME} />
@@ -74,21 +78,35 @@ const imageUrl = image ? assetUrl(image) : undefined;
     <meta name="twitter:description" content={description} />
     {imageUrl ? <meta name="twitter:image" content={imageUrl} /> : null}
     <link rel="alternate" hreflang="es-MX" href={url} />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net" />
+    <link rel="dns-prefetch" href="https://tpc.googlesyndication.com" />
+    <link rel="dns-prefetch" href="https://ep1.adtrafficquality.google" />
     <meta name="generator" content={Astro.generator} />
     {jsonLdItems.map((item) => (
       <script type="application/ld+json" set:html={JSON.stringify(item)} />
     ))}
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-STXSHL7YRH" is:inline></script>
+    <!-- Google AdSense (official head snippet; ads start after first paint) -->
+    <script is:inline>
+      window.adsbygoogle = window.adsbygoogle || [];
+      window.adsbygoogle.pauseAdRequests = 1;
+    </script>
+    <script
+      async
+      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
+      crossorigin="anonymous"
+      data-overlays="bottom"
+      is:inline></script>
+    <!-- Google tag (gtag.js) — property G-STXSHL7YRH stays in markup; script loads after idle -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-STXSHL7YRH');
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
+      };
+      window.__GA_MEASUREMENT_ID = "G-STXSHL7YRH";
     </script>
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9573612374074710" crossorigin="anonymous" is:inline></script>
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -97,5 +115,48 @@ const imageUrl = image ? assetUrl(image) : undefined;
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      (function () {
+        var adsReleased = false;
+        var gaLoaded = false;
+
+        function releaseAds() {
+          if (adsReleased) return;
+          adsReleased = true;
+          try {
+            (window.adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 0;
+          } catch (err) {
+            /* ignore */
+          }
+        }
+
+        function loadAnalytics() {
+          if (gaLoaded) return;
+          gaLoaded = true;
+          var id = window.__GA_MEASUREMENT_ID || "G-STXSHL7YRH";
+          var script = document.createElement("script");
+          script.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
+          script.async = true;
+          document.head.appendChild(script);
+          window.gtag("js", new Date());
+          window.gtag("config", id, { transport_type: "beacon" });
+        }
+
+        function afterFirstPaint(fn) {
+          var run = function () {
+            if ("requestIdleCallback" in window) {
+              requestIdleCallback(fn, { timeout: 2500 });
+            } else {
+              setTimeout(fn, 1);
+            }
+          };
+          if (document.readyState === "complete") run();
+          else window.addEventListener("load", run, { once: true });
+        }
+
+        afterFirstPaint(releaseAds);
+        afterFirstPaint(loadAnalytics);
+      })();
+    </script>
   </body>
 </html>

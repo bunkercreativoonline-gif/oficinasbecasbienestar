@@ -8,25 +8,42 @@ interface Props {
 
 const { compact = false, q = "" } = Astro.props;
 const estados = getEstadoHubs();
+const qId = compact ? "q-compact" : "q";
+const estadoId = compact ? "estado-compact" : "estado";
 ---
 
-<form class={compact ? "filter-bar" : "form-row"} method="get" action="/buscar/" role="search">
+<form
+  class={compact ? "filter-bar" : "form-row"}
+  method="get"
+  action="/buscar/"
+  role="search"
+  aria-label="Buscar oficina o sede"
+  toolname="buscar_oficina"
+  tooldescription="Busca Oficinas de Becas para el Bienestar Benito Juárez por municipio, colonia, código postal o estado."
+  toolautosubmit
+>
   <div>
-    <label for="q">Buscar oficina o sede</label>
+    <label for={qId}>Buscar oficina o sede</label>
     <input
-      id="q"
+      id={qId}
       name="q"
       type="search"
       value={q}
       placeholder="Municipio, colonia u oficina de Becas Benito Juárez"
       maxlength="120"
+      enterkeyhint="search"
+      toolparamdescription="Municipio, colonia, código postal o nombre de la oficina"
     />
   </div>
   {
     !compact && (
       <div>
-        <label for="estado">Estado</label>
-        <select id="estado" name="estado">
+        <label for={estadoId}>Estado</label>
+        <select
+          id={estadoId}
+          name="estado"
+          toolparamdescription="Estado de México; vacío para buscar en todos"
+        >
           <option value="">Todos los estados</option>
           {estados.map((estado) => (
             <option value={estado.slug}>{estado.display}</option>

@@ -67,13 +67,17 @@ export default defineConfig({
   trailingSlash: "always",
   output: "static",
   compressHTML: true,
-  prefetch: {
-    prefetchAll: true,
-    defaultStrategy: "hover",
-  },
+  prefetch: false,
   build: {
     format: "directory",
-    inlineStylesheets: "auto",
+    inlineStylesheets: "always",
+  },
+  vite: {
+    build: {
+      // Modern targets — avoid legacy polyfills flagged as unused/legacy JS.
+      target: ["chrome111", "edge111", "firefox111", "safari16.4"],
+      cssTarget: "safari16.4",
+    },
   },
   integrations: [
     mdx(),

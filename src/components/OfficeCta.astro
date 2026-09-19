@@ -17,7 +17,16 @@ const { heading = "Acude a una oficina en tu ciudad" } = Astro.props;
     {PRIMARY_PHRASE}: las direcciones salen del catálogo público de sedes y debes
     confirmarlas antes de visitar.
   </p>
-  <form class="filter-bar" method="get" action="/buscar/" role="search">
+  <form
+    class="filter-bar"
+    method="get"
+    action="/buscar/"
+    role="search"
+    aria-label="Buscar oficina desde la guía"
+    toolname="buscar_oficina_guia"
+    tooldescription="Busca una Oficina de Becas para el Bienestar Benito Juárez por municipio, colonia o estado."
+    toolautosubmit
+  >
     <div>
       <label for="cta-q">Municipio, colonia o estado</label>
       <input
@@ -26,6 +35,8 @@ const { heading = "Acude a una oficina en tu ciudad" } = Astro.props;
         type="search"
         placeholder="Escribe tu municipio"
         maxlength="120"
+        enterkeyhint="search"
+        toolparamdescription="Municipio, colonia o estado donde quieres localizar una oficina"
       />
     </div>
     <div class="actions" style="margin: 0;">

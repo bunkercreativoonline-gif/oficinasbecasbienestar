@@ -1,0 +1,25 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+const { src, alt, width, height } = Astro.props;
+const isPng = /\.png$/i.test(src);
+const webp = isPng ? src.replace(/\.png$/i, ".webp") : src;
+const webpNarrow = isPng ? src.replace(/\.png$/i, "-800.webp") : undefined;
+---
+
+<img
+  class="blog-hero"
+  src={webp}
+  srcset={webpNarrow ? `${webpNarrow} 800w, ${webp} ${width}w` : undefined}
+  sizes="(max-width: 719px) calc(100vw - 1.5rem), 46rem"
+  alt={alt}
+  width={width}
+  height={height}
+  decoding="async"
+  fetchpriority="high"
+/>

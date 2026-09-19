@@ -72,22 +72,28 @@ const crumbs = [
       </div>
       <h2>Municipios con oficina</h2>
       <p class="intro">Selecciona tu municipio para consultar la dirección de cada sede.</p>
-      <div class="grid-estados">
+      <ul class="grid-estados">
         {
           municipios.map((muni) => (
-            <a class="estado-card" href={muni.path}>
-              <b>{muni.display}</b>
-              <span class="muted">
-                {muni.count} {plural(muni.count, "sede", "sedes")}
-              </span>
-            </a>
+            <li>
+              <a class="estado-card" href={muni.path}>
+                <b>{muni.display}</b>
+                <span class="muted">
+                  {muni.count} {plural(muni.count, "sede", "sedes")}
+                </span>
+              </a>
+            </li>
           ))
         }
-      </div>
+      </ul>
       <h2 style="margin-top: 2rem;">Todas las oficinas de Becas para el Bienestar Benito Juárez en {hub.display}</h2>
-      <div class="grid-cards">
-        {sedes.map((sede) => <SedeCard sede={sede} />)}
-      </div>
+      <ul class="grid-cards">
+        {sedes.map((sede) => (
+          <li>
+            <SedeCard sede={sede} />
+          </li>
+        ))}
+      </ul>
       <div style="margin-top: 1.5rem;">
         <Disclaimer />
       </div>

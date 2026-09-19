@@ -48,20 +48,22 @@ const crumbs = [
         posts.length === 0 ? (
           <p class="empty">Aún no hay artículos publicados.</p>
         ) : (
-          <div class="grid-cards">
+          <ul class="grid-cards">
             {posts.map((post) => (
-              <a class="card" href={blogPath(post.id)}>
-                <span class="badge">Guía</span>
-                <h2 class="blog-card-title">{post.data.title}</h2>
-                <p class="meta">
-                  <time datetime={post.data.pubDate.toISOString()}>
-                    {formatBlogDate(post.data.pubDate)}
-                  </time>
-                </p>
-                <p class="blog-card-excerpt">{post.data.description}</p>
-              </a>
+              <li>
+                <a class="card" href={blogPath(post.id)}>
+                  <span class="badge">Guía</span>
+                  <h2 class="blog-card-title">{post.data.title}</h2>
+                  <p class="meta">
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {formatBlogDate(post.data.pubDate)}
+                    </time>
+                  </p>
+                  <p class="blog-card-excerpt">{post.data.description}</p>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         )
       }
       <div style="margin-top: 1.5rem;">
