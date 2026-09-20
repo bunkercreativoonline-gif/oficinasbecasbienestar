@@ -9,10 +9,6 @@ function meta(text: string): string {
   return truncate(text.replace(/\s+/g, " ").trim(), META_MAX);
 }
 
-function mentionsProgram(text: string): boolean {
-  return /becas\s+para\s+el\s+bienestar\s+benito\s+ju[aá]rez/i.test(text);
-}
-
 export function homeTitle(): string {
   return `${PRIMARY_PHRASE} | Directorio de sedes de atención en México`;
 }
@@ -64,7 +60,7 @@ export function municipioTitle(
   count: number,
 ): string {
   const n = count === 1 ? "oficina" : "oficinas";
-  return `${municipio}, ${estado}: ${n} de Becas para el Bienestar Benito Juárez`;
+  return `${PRIMARY_PHRASE} en ${municipio}, ${estado} | ${count} ${n}`;
 }
 
 export function municipioH1(municipio: string, estado: string): string {
@@ -92,10 +88,7 @@ export function municipioDescription(input: {
 
 export function sedeTitle(sede: Sede): string {
   const loc = `${sede.municipioDisplay}, ${sede.estadoDisplay}`;
-  if (mentionsProgram(sede.nombreDisplay)) {
-    return `${sede.nombreDisplay} | ${sede.tipoShort} en ${loc}`;
-  }
-  return `${sede.nombreDisplay} (${sede.tipoShort}) · ${loc} | ${PRIMARY_PHRASE_SINGULAR}`;
+  return `${sede.nombreDisplay} | ${PRIMARY_PHRASE_SINGULAR} en ${loc}`;
 }
 
 export function sedeH1(sede: Sede): string {
