@@ -83,7 +83,7 @@ const mapSede = sedes.find((sede) => sede.lat !== null && sede.lng !== null) ?? 
         <ul class="grid-cards" style="grid-template-columns: 1fr;">
           {sedes.map((sede) => (
             <li>
-              <SedeCard sede={sede} />
+              <SedeCard sede={sede} headingLevel="h2" />
             </li>
           ))}
         </ul>
