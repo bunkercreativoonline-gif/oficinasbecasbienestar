@@ -14,18 +14,20 @@ interface Props {
     | "cp"
     | "telefonos"
   >;
+  headingLevel?: "h2" | "h3";
 }
 
-const { sede } = Astro.props;
+const { sede, headingLevel = "h3" } = Astro.props;
+const Heading = headingLevel;
 const badgeClass =
   sede.tipo === "SARE" ? "badge badge-sare" : sede.tipo === "ORE" ? "badge badge-ore" : "badge";
 ---
 
 <a class="card" href={sede.path}>
   <span class={badgeClass}>{sede.tipoShort}</span>
-  <h3 style="margin: 0.45rem 0 0.35rem; font-size: 1.02rem; line-height: 1.3;">
+  <Heading style="margin: 0.45rem 0 0.35rem; font-size: 1.02rem; line-height: 1.3; font-family: inherit;">
     {sede.nombreDisplay}
-  </h3>
+  </Heading>
   <p class="meta" style="margin: 0;">
     {sede.municipioDisplay}, {sede.estadoDisplay}
     <br />
