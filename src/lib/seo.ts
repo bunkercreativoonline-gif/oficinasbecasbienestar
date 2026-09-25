@@ -1,5 +1,5 @@
 import { truncate } from "./format";
-import { PRIMARY_PHRASE, PRIMARY_PHRASE_SINGULAR } from "./site";
+import { PRIMARY_PHRASE } from "./site";
 import type { Sede } from "./sedes";
 import { TIPO_META, type TipoSede } from "./tipos";
 
@@ -53,9 +53,19 @@ export function municipioDescription(input: {
   return `${STATE_CITY_DIRECTORY} en ${input.municipio}, ${input.estado}, con horario, teléfono y direcciones.`;
 }
 
+/**
+ * Código que la ficha ya muestra: prefijo del nombre (id de CABB/SARE o CCT).
+ * Las ORE no traen ese prefijo; en la página el identificador corto es el tipo.
+ */
+function sedeClave(sede: Pick<Sede, "nombreDisplay" | "tipoShort">): string {
+  const coded = sede.nombreDisplay.match(/^([0-9A-Z]{2,12})(?:\s+-\s+|\s+)/i);
+  if (coded) return coded[1];
+  return sede.tipoShort;
+}
+
 export function sedeTitle(sede: Sede): string {
-  const loc = `${sede.municipioDisplay}, ${sede.estadoDisplay}`;
-  return `${sede.nombreDisplay} | ${PRIMARY_PHRASE_SINGULAR} en ${loc}`;
+  const clave = sedeClave(sede);
+  return `Oficina Becas Bienestar ${sede.municipioDisplay} - ${clave} | Horario, Dirección y Teléfono`;
 }
 
 export function sedeH1(sede: Sede): string {
@@ -63,14 +73,8 @@ export function sedeH1(sede: Sede): string {
 }
 
 export function sedeDescription(sede: Sede): string {
-  const contact = sede.telefonos.length
-    ? ` Tel. ${sede.telefonos[0]}.`
-    : sede.correos.length
-      ? ` Correo ${sede.correos[0]}.`
-      : "";
-  return meta(
-    `${PRIMARY_PHRASE_SINGULAR} (${sede.tipoShort}) ${sede.nombreDisplay} en ${sede.municipioDisplay}, ${sede.estadoDisplay}. Dirección: ${sede.direccion}. C.P. ${sede.cp}.${contact} Consulta ubicación.`,
-  );
+  const clave = sedeClave(sede);
+  return `Consulta el horario, dirección y teléfono de la Oficina de Becas Bienestar en ${sede.municipioDisplay}, ${sede.estadoDisplay} - ${clave}.`;
 }
 
 export function tipoTitle(tipo: TipoSede, count: number): string {
