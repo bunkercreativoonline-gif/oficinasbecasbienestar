@@ -1,50 +1,64 @@
 ---
-import { getEstadoHubs } from "../lib/sedes";
+import { getEstadoHub, getEstadoHubs, getMunicipioHubs } from "../lib/sedes";
 
 interface Props {
-  compact?: boolean;
-  q?: string;
+  /** Limits the municipio list to one estado (used on state pages). */
+  estadoSlug?: string;
+  idPrefix?: string;
+  submitLabel?: string;
+  toolname?: string;
 }
 
-const { compact = false, q = "" } = Astro.props;
+const {
+  estadoSlug,
+  idPrefix = "ciudad",
+  submitLabel = "Buscar",
+  toolname = "buscar_oficina",
+} = Astro.props;
+
+const lockedHub = estadoSlug ? getEstadoHub(estadoSlug) : undefined;
 const estados = getEstadoHubs();
-const qId = compact ? "q-compact" : "q";
-const estadoId = compact ? "estado-compact" : "estado";
+const municipios = getMunicipioHubs(lockedHub ? estadoSlug : undefined);
+const fallbackAction = lockedHub?.path ?? "/#estados";
+const estadoId = `${idPrefix}-estado`;
+const municipioId = `${idPrefix}-municipio`;
+const errorId = `${idPrefix}-error`;
+const groups = lockedHub
+  ? []
+  : estados
+      .map((estado) => ({
+        slug: estado.slug,
+        display: estado.display,
+        municipios: municipios.filter((municipio) => municipio.estadoSlug === estado.slug),
+      }))
+      .filter((group) => group.municipios.length > 0);
 ---
 
 <form
-  class={compact ? "filter-bar" : "form-row"}
+  class:list={["form-row", { "form-row-compact": Boolean(lockedHub) }]}
   method="get"
-  action="/buscar/"
+  action={fallbackAction}
   role="search"
-  aria-label="Buscar oficina o sede"
-  toolname="buscar_oficina"
-  tooldescription="Busca Oficinas de Becas para el Bienestar Benito Juárez por municipio, colonia, código postal o estado."
-  toolautosubmit
+  aria-label={lockedHub
+    ? `Buscar oficinas en ${lockedHub.display}`
+    : "Buscar oficinas por estado y municipio"}
+  data-city-search
+  data-locked-estado={lockedHub ? "true" : "false"}
+  toolname={toolname}
+  tooldescription="Elige estado y municipio para abrir la página de oficinas de esa ciudad."
 >
-  <div>
-    <label for={qId}>Buscar oficina o sede</label>
-    <input
-      id={qId}
-      name="q"
-      type="search"
-      value={q}
-      placeholder="Municipio, colonia u oficina de Becas Benito Juárez"
-      maxlength="120"
-      enterkeyhint="search"
-      toolparamdescription="Municipio, colonia, código postal o nombre de la oficina"
-    />
-  </div>
   {
-    !compact && (
+    !lockedHub && (
       <div>
         <label for={estadoId}>Estado</label>
         <select
           id={estadoId}
-          name="estado"
-          toolparamdescription="Estado de México; vacío para buscar en todos"
+          data-city-estado
+          required
+          aria-describedby={errorId}
+          toolparamdescription="Estado de México donde quieres consultar las oficinas"
         >
-          <option value="">Todos los estados</option>
+          <option value="">Selecciona un estado</option>
           {estados.map((estado) => (
             <option value={estado.slug}>{estado.display}</option>
           ))}
@@ -52,14 +66,163 @@ const estadoId = compact ? "estado-compact" : "estado";
       </div>
     )
   }
-  <div class="actions" style={compact ? "margin: 0;" : undefined}>
-    <button class="btn btn-primary" type="submit">Buscar</button>
-    {
-      !compact && (
-        <a class="btn btn-ghost" href="/#estados">
-          Ver por estado
-        </a>
-      )
-    }
+  <div>
+    <label for={municipioId}>Municipio</label>
+    <select
+      id={municipioId}
+      data-city-municipio
+      required
+      aria-describedby={errorId}
+      toolparamdescription="Municipio o ciudad. Al buscar se abre la página de oficinas de esa ciudad."
+    >
+      <option value="">Selecciona un municipio</option>
+      {
+        lockedHub
+          ? municipios.map((municipio) => (
+              <option value={municipio.path} data-estado={municipio.estadoSlug}>
+                {municipio.display}
+              </option>
+            ))
+          : groups.map((group) => (
+              <optgroup label={group.display}>
+                {group.municipios.map((municipio) => (
+                  <option value={municipio.path} data-estado={municipio.estadoSlug}>
+                    {municipio.display}
+                  </option>
+                ))}
+              </optgroup>
+            ))
+      }
+    </select>
   </div>
+  <div class="actions">
+    <button class="btn btn-primary" type="submit">{submitLabel}</button>
+  </div>
+  <p class="field-error" id={errorId} data-city-error role="alert" hidden>
+    {
+      lockedHub
+        ? "Elige un municipio para continuar."
+        : "Elige un estado y un municipio para continuar."
+    }
+  </p>
+  <noscript>
+    <p class="field-hint">
+      {
+        lockedHub ? (
+          "Sin JavaScript, elige el municipio en la lista de esta página."
+        ) : (
+          <>
+            Sin JavaScript, abre el <a href="/#estados">listado por estado</a> y elige el municipio.
+          </>
+        )
+      }
+    </p>
+  </noscript>
 </form>
+
+<script>
+  const CITY_PATH = /^\/estado\/[a-z0-9-]+\/[a-z0-9-]+\/$/;
+
+  function asSelect(element: Element | null): HTMLSelectElement | null {
+    return element instanceof HTMLSelectElement ? element : null;
+  }
+
+  function asMessage(element: Element | null): HTMLParagraphElement | null {
+    return element instanceof HTMLParagraphElement ? element : null;
+  }
+
+  for (const node of document.querySelectorAll("form[data-city-search]")) {
+    if (!(node instanceof HTMLFormElement)) continue;
+    const form = node;
+    const estadoSelect = asSelect(form.querySelector("[data-city-estado]"));
+    const municipioSelect = asSelect(form.querySelector("[data-city-municipio]"));
+    const error = asMessage(form.querySelector("[data-city-error]"));
+    if (!municipioSelect || !error) continue;
+
+    const locked = form.dataset.lockedEstado === "true";
+    const stored = locked
+      ? []
+      : Array.from(municipioSelect.querySelectorAll("option[data-estado]")).flatMap((option) => {
+          if (!(option instanceof HTMLOptionElement)) return [];
+          return [option.cloneNode(true) as HTMLOptionElement];
+        });
+
+    const showError = (message: string) => {
+      error.hidden = false;
+      error.textContent = message;
+    };
+
+    const validationMessage = () => {
+      if (estadoSelect && !estadoSelect.value) {
+        return "Elige un estado y un municipio para continuar.";
+      }
+      return "Elige un municipio para continuar.";
+    };
+
+    const markFields = () => {
+      if (estadoSelect) {
+        estadoSelect.setAttribute("aria-invalid", estadoSelect.value ? "false" : "true");
+      }
+      municipioSelect.setAttribute("aria-invalid", municipioSelect.value ? "false" : "true");
+    };
+
+    const clearErrorIfReady = () => {
+      const estadoOk = !estadoSelect || Boolean(estadoSelect.value);
+      if (estadoOk && municipioSelect.value) error.hidden = true;
+    };
+
+    const renderMunicipios = (estado: string) => {
+      const previous = municipioSelect.value;
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = estado ? "Selecciona un municipio" : "Primero elige un estado";
+      municipioSelect.replaceChildren(placeholder);
+      if (!estado) return;
+      for (const option of stored) {
+        if (option.dataset.estado !== estado) continue;
+        municipioSelect.append(option.cloneNode(true));
+      }
+      const stillValid = Array.from(municipioSelect.options).some((option) => option.value === previous);
+      municipioSelect.value = stillValid ? previous : "";
+    };
+
+    if (!locked && estadoSelect) {
+      renderMunicipios(estadoSelect.value);
+      estadoSelect.addEventListener("change", () => {
+        renderMunicipios(estadoSelect.value);
+        if (estadoSelect.value) estadoSelect.setAttribute("aria-invalid", "false");
+        clearErrorIfReady();
+      });
+    }
+
+    municipioSelect.addEventListener("change", () => {
+      if (municipioSelect.value) municipioSelect.setAttribute("aria-invalid", "false");
+      clearErrorIfReady();
+    });
+
+    form.addEventListener(
+      "invalid",
+      (event) => {
+        event.preventDefault();
+        markFields();
+        showError(validationMessage());
+        const focusTarget = estadoSelect && !estadoSelect.value ? estadoSelect : municipioSelect;
+        if (event.target === focusTarget) focusTarget.focus();
+      },
+      true,
+    );
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const path = municipioSelect.value;
+      const missingEstado = Boolean(estadoSelect && !estadoSelect.value);
+      if (missingEstado || !CITY_PATH.test(path)) {
+        markFields();
+        showError(validationMessage());
+        (missingEstado && estadoSelect ? estadoSelect : municipioSelect).focus();
+        return;
+      }
+      window.location.assign(path);
+    });
+  }
+</script>

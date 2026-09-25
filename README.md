@@ -10,11 +10,10 @@ Este proyecto **no es un sitio oficial de gobierno**. Los datos se tomaron del [
 
 | Ruta | Contenido |
 | --- | --- |
-| `/` | Buscador, estadísticas y listado de estados |
+| `/` | Buscador por estado y municipio, estadísticas y listado de estados |
 | `/estado/[estado]/` | Hub estatal y municipios |
 | `/estado/[estado]/[municipio]/` | Oficinas del municipio |
 | `/sede/[slug]/` | Ficha de cada oficina (711) |
-| `/buscar/` | Filtro en el cliente |
 | `/blog/` | Índice de noticias y guías |
 | `/blog/[slug]/` | Artículo (colecciones de contenido en `src/content/blog/`) |
 | `/tipo/cabb/`, `/tipo/sare/`, `/tipo/ore/` | Listados por tipo de sede |

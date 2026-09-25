@@ -99,20 +99,6 @@ export function tipoDescription(tipo: TipoSede, count: number): string {
   );
 }
 
-export function buscarTitle(): string {
-  return `Buscar ${PRIMARY_PHRASE} | Sedes de atención`;
-}
-
-export function buscarH1(): string {
-  return `Buscar ${PRIMARY_PHRASE}`;
-}
-
-export function buscarDescription(): string {
-  return meta(
-    `Busca ${PRIMARY_PHRASE} por estado, municipio o tipo de sede (CABB, SARE u ORE). Consulta dirección y contacto de cada oficina.`,
-  );
-}
-
 export function notFoundTitle(): string {
   return `Página no encontrada | ${PRIMARY_PHRASE}`;
 }

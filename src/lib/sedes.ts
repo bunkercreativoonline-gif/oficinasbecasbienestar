@@ -69,20 +69,6 @@ export interface Sede {
   municipioPath: string;
 }
 
-export interface SearchHit {
-  slug: string;
-  path: string;
-  nombre: string;
-  tipo: TipoSede;
-  municipio: string;
-  estado: string;
-  estadoSlug: string;
-  municipioSlug: string;
-  direccion: string;
-  direccionOriginal: string;
-  cp: string;
-}
-
 export interface MunicipioHub {
   nombre: string;
   display: string;
@@ -298,22 +284,6 @@ export function getStats() {
     municipios: getMunicipioHubs().length,
     ...tipos,
   };
-}
-
-export function getSearchIndex(): SearchHit[] {
-  return SEDES.map((sede) => ({
-    slug: sede.slug,
-    path: sede.path,
-    nombre: sede.nombreDisplay,
-    tipo: sede.tipo,
-    municipio: sede.municipioDisplay,
-    estado: sede.estadoDisplay,
-    estadoSlug: sede.estadoSlug,
-    municipioSlug: sede.municipioSlug,
-    direccion: sede.direccionLimpia.streetAddress,
-    direccionOriginal: sede.direccionOriginal,
-    cp: sede.cp,
-  }));
 }
 
 export function resolveEstadoParam(slug: string): string | undefined {
