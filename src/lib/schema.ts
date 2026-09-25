@@ -30,6 +30,7 @@ export {
   notFoundH1,
   notFoundTitle,
   sedeDescription,
+  sedeDisplayTitle,
   sedeH1,
   sedeTitle,
   tipoDescription,

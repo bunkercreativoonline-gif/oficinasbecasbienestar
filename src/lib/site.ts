@@ -5,10 +5,6 @@ export const SITE_DOMAIN = "oficinasbecasbienestar.com.mx";
 export const PRIMARY_PHRASE =
   "Oficinas de Becas para el Bienestar Benito Juárez";
 
-/** Frase clave en singular (ficha de una sede). */
-export const PRIMARY_PHRASE_SINGULAR =
-  "Oficina de Becas para el Bienestar Benito Juárez";
-
 export const SITE_NAME = PRIMARY_PHRASE;
 export const SITE_NAME_SHORT = "Oficinas Becas Bienestar";
 

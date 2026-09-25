@@ -1,5 +1,5 @@
 import { truncate } from "./format";
-import { PRIMARY_PHRASE, PRIMARY_PHRASE_SINGULAR } from "./site";
+import { PRIMARY_PHRASE } from "./site";
 import type { Sede } from "./sedes";
 import { TIPO_META, type TipoSede } from "./tipos";
 
@@ -63,14 +63,25 @@ function sedeClave(sede: Pick<Sede, "nombreDisplay" | "tipoShort">): string {
   return sede.tipoShort;
 }
 
+/** Fields needed to build the visible sede title (H1 and listing cards). */
+export type SedeTitleInput = Pick<Sede, "nombreDisplay" | "tipoShort" | "municipioDisplay">;
+
+/**
+ * Visible title shared by the sede page H1 and listing card headings.
+ * Pattern: Oficina de Becas Bienestar - {clave} - {ciudad}
+ */
+export function sedeDisplayTitle(sede: SedeTitleInput): string {
+  const clave = sedeClave(sede);
+  return `Oficina de Becas Bienestar - ${clave} - ${sede.municipioDisplay}`;
+}
+
 export function sedeTitle(sede: Sede): string {
   const clave = sedeClave(sede);
   return `Oficina Becas Bienestar ${sede.municipioDisplay} - ${clave} | Horario, Dirección y Teléfono`;
 }
 
-export function sedeH1(sede: Sede): string {
-  const clave = sedeClave(sede);
-  return `${PRIMARY_PHRASE_SINGULAR} en ${sede.municipioDisplay} - ${clave}`;
+export function sedeH1(sede: SedeTitleInput): string {
+  return sedeDisplayTitle(sede);
 }
 
 export function sedeDescription(sede: Sede): string {
