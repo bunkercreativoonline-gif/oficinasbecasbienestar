@@ -36,9 +36,6 @@ function sitemapPriority(url) {
   if (url.includes("/sede/")) {
     return { priority: 0.6, changefreq: "monthly" };
   }
-  if (url.includes("/buscar/")) {
-    return { priority: 0.4, changefreq: "monthly" };
-  }
   if (url === `${SITE}/blog/` || /\/blog\/[^/]+\/$/.test(url)) {
     return { priority: 0.7, changefreq: "weekly" };
   }

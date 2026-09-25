@@ -27,7 +27,7 @@ const heading = homeH1();
       <p class="lede">
         Directorio de las {stats.sedes} oficinas y sedes de atención CABB, SARE y ORE
         de Becas para el Bienestar Benito Juárez en los {stats.estados} estados de México.
-        Busca por municipio o recorre el listado estatal para consultar dirección, teléfono y mapa.
+        Elige tu estado y municipio, o recorre el listado estatal, para consultar dirección, teléfono y mapa.
       </p>
       <ul class="stats" aria-label="Resumen del directorio">
         <li class="stat"><b>{stats.sedes}</b><span>Sedes de atención</span></li>
@@ -39,7 +39,7 @@ const heading = homeH1();
   </section>
 
   <div class="wrap">
-    <div class="panel search-panel">
+    <div class="panel search-panel" id="buscar-ciudad">
       <SearchForm />
     </div>
   </div>

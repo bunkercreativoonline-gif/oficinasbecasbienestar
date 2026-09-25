@@ -15,9 +15,6 @@ export {
   blogPostDescription,
   blogPostH1,
   blogPostTitle,
-  buscarDescription,
-  buscarH1,
-  buscarTitle,
   estadoDescription,
   estadoH1,
   estadoListName,
@@ -78,11 +75,6 @@ export function websiteJsonLd() {
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
-    },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SITE_URL}/buscar/?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
     },
   };
 }

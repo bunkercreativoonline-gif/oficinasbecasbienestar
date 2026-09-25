@@ -68,7 +68,7 @@ const crumbs = [
         {plural(hub.municipios, "municipio", "municipios")}.
       </p>
       <div class="panel" style="margin-bottom: 1.4rem;">
-        <SearchForm compact q={hub.display} />
+        <SearchForm estadoSlug={hub.slug} idPrefix="estado-ciudad" />
       </div>
       <h2>Municipios con oficina</h2>
       <p class="intro">Selecciona tu municipio para consultar la dirección de cada sede.</p>
