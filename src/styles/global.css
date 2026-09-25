@@ -675,38 +675,60 @@ ins.adsbygoogle {
   margin: -0.2rem 0 1.2rem;
 }
 
-.blog-prose {
+.blog-prose,
+.prose {
   max-width: 42rem;
 }
 
-.blog-prose > :first-child {
+.prose {
+  max-width: 48rem;
+  margin-top: 1.85rem;
+}
+
+.blog-prose > :first-child,
+.prose > :first-child {
   margin-top: 0;
 }
 
-.blog-prose h2 {
+.blog-prose h2,
+.prose h2 {
   font-family: var(--display);
   font-size: clamp(1.25rem, 2.6vw, 1.55rem);
   line-height: 1.25;
   margin: 1.85rem 0 0.55rem;
 }
 
-.blog-prose h3 {
+.prose > h2:first-child {
+  margin-top: 0;
+}
+
+.blog-prose h3,
+.prose h3 {
   font-size: 1.05rem;
   margin: 1.35rem 0 0.4rem;
 }
 
 .blog-prose p,
 .blog-prose ul,
-.blog-prose ol {
+.blog-prose ol,
+.prose p,
+.prose ul,
+.prose ol {
   margin: 0 0 1rem;
 }
 
-.blog-prose li {
+.blog-prose li,
+.prose li {
   margin: 0 0 0.4rem;
 }
 
-.blog-prose li:last-child {
+.blog-prose li:last-child,
+.prose li:last-child {
   margin-bottom: 0;
+}
+
+.prose ul {
+  padding-left: 1.25rem;
 }
 
 .blog-cta {

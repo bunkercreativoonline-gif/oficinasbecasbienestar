@@ -2,6 +2,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import Disclaimer from "../../../components/Disclaimer.astro";
+import MunicipioTramites from "../../../components/MunicipioTramites.astro";
 import SedeCard from "../../../components/SedeCard.astro";
 import MapEmbed from "../../../components/MapEmbed.astro";
 import {
@@ -94,6 +95,7 @@ const mapSede = sedes.find((sede) => sede.lat !== null && sede.lng !== null) ?? 
         Ver también: <a href={`/estado/${hub.estadoSlug}/`}>todas las oficinas de {hub.estadoDisplay}</a>
         · {hub.count} {plural(hub.count, "resultado", "resultados")} en este municipio.
       </p>
+      <MunicipioTramites ciudad={hub.display} estado={hub.estadoDisplay} />
       <div style="margin-top: 1.5rem;">
         <Disclaimer />
       </div>
