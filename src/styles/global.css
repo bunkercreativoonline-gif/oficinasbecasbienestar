@@ -464,6 +464,11 @@ select {
   margin: 0;
 }
 
+.address-block {
+  display: grid;
+  gap: 0.12rem;
+}
+
 .map-frame {
   display: block;
   width: 100%;

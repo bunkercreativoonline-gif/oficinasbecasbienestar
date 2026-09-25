@@ -10,8 +10,7 @@ interface Props {
     | "tipoShort"
     | "municipioDisplay"
     | "estadoDisplay"
-    | "direccion"
-    | "cp"
+    | "direccionLimpia"
     | "telefonos"
   >;
   headingLevel?: "h2" | "h3";
@@ -31,9 +30,9 @@ const badgeClass =
   <p class="meta" style="margin: 0;">
     {sede.municipioDisplay}, {sede.estadoDisplay}
     <br />
-    {sede.direccion}
+    {sede.direccionLimpia.calleNumero}
     <br />
-    C.P. {sede.cp}
+    {sede.direccionLimpia.coloniaLinea}
     {sede.telefonos[0] ? ` · Tel. ${sede.telefonos[0]}` : ""}
   </p>
 </a>
