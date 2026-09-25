@@ -90,11 +90,11 @@ export function sedeH1(sede: SedeTitleInput): string {
 
 /**
  * Meta description for an individual sede page.
- * Pattern: Consulta el horario, dirección y teléfono de la Oficina de Becas Bienestar {clave} en {ciudad}, {estado}.
+ * Pattern: Consulta el horario, dirección y teléfono de la Oficina de Becas Bienestar ({clave}) en ({ciudad}), ({estado}).
  */
 export function sedeDescription(sede: Sede): string {
   const clave = sedeClave(sede);
-  return `Consulta el horario, dirección y teléfono de la Oficina de Becas Bienestar ${clave} en ${sede.municipioDisplay}, ${sede.estadoDisplay}.`;
+  return `Consulta el horario, dirección y teléfono de la Oficina de Becas Bienestar (${clave}) en (${sede.municipioDisplay}), (${sede.estadoDisplay}).`;
 }
 
 export function tipoTitle(tipo: TipoSede, count: number): string {
