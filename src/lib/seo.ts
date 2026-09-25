@@ -10,23 +10,16 @@ function meta(text: string): string {
 }
 
 export function homeTitle(): string {
-  return `${PRIMARY_PHRASE} | Directorio de sedes de atención en México`;
+  const year = new Date().getFullYear();
+  return `Oficinas Becas Bienestar Benito Juárez ${year} - Directorio Nacional`;
 }
 
 export function homeH1(): string {
   return PRIMARY_PHRASE;
 }
 
-export function homeDescription(stats: {
-  sedes: number;
-  estados: number;
-  cabb: number;
-  sare: number;
-  ore: number;
-}): string {
-  return meta(
-    `Directorio de ${PRIMARY_PHRASE} en México: ${stats.sedes} sedes (${stats.cabb} CABB, ${stats.sare} SARE, ${stats.ore} ORE) en ${stats.estados} estados. Consulta dirección y contacto.`,
-  );
+export function homeDescription(): string {
+  return "Directorio de Oficinas de las Becas Bienestar Benito Juárez. Consulta la sede más cerca a tu domicilio.";
 }
 
 export function estadoTitle(display: string, count: number): string {
