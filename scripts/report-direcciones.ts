@@ -105,7 +105,7 @@ assertEqual(
     tipoShort: "CABB",
     municipioDisplay: "Tampico",
   } as Sede),
-  "Oficina de Becas para el Bienestar Benito Juárez en Tampico - 2806062",
+  "Oficina de Becas Bienestar - 2806062 - Tampico",
 );
 assertEqual(
   "H1 ORE",
@@ -114,7 +114,7 @@ assertEqual(
     tipoShort: "ORE",
     municipioDisplay: "Aguascalientes",
   } as Sede),
-  "Oficina de Becas para el Bienestar Benito Juárez en Aguascalientes - ORE",
+  "Oficina de Becas Bienestar - ORE - Aguascalientes",
 );
 assertEqual(
   "H1 CCT",
@@ -123,7 +123,7 @@ assertEqual(
     tipoShort: "CABB",
     municipioDisplay: "Iztapalapa",
   } as Sede),
-  "Oficina de Becas para el Bienestar Benito Juárez en Iztapalapa - 09DIT0005O",
+  "Oficina de Becas Bienestar - 09DIT0005O - Iztapalapa",
 );
 
 console.log(`\nSedes: ${cleaned.length}`);
