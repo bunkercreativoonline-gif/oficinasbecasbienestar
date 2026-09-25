@@ -32,14 +32,10 @@ const hub = hubs.find((item) => item.slug === municipio);
 if (!hub) throw new Error(`Municipio no encontrado: ${estado}/${municipio}`);
 
 const sedes = getSedesByMunicipio(estado, municipio);
-const title = municipioTitle(hub.display, hub.estadoDisplay, hub.count);
+const title = municipioTitle(hub.display);
 const description = municipioDescription({
   municipio: hub.display,
   estado: hub.estadoDisplay,
-  count: hub.count,
-  cabb: hub.cabb,
-  sare: hub.sare,
-  ore: hub.ore,
 });
 const heading = municipioH1(hub.display, hub.estadoDisplay);
 const crumbs = [
