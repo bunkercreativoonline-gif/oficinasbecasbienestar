@@ -1,0 +1,64 @@
+---
+interface Props {
+  ciudad: string;
+  estado: string;
+}
+
+const { ciudad, estado } = Astro.props;
+---
+
+<section class="prose municipio-tramites" aria-labelledby="tramites-municipio">
+  <h2 id="tramites-municipio">
+    Trámites que puedes realizar en las Oficinas de Becas Bienestar de {ciudad}
+  </h2>
+  <p>
+    En las Oficinas de Atención de las Becas Bienestar ubicadas en {ciudad}, {estado}, puedes
+    realizar trámites presenciales relacionados con la gestión, entrega y aclaración de los apoyos
+    económicos de los programas de becas.
+  </p>
+  <p>Entre los principales trámites y servicios que puedes realizar se encuentran los siguientes:</p>
+  <h3>Trámites principales</h3>
+  <ul>
+    <li>
+      <strong>Reposición de tarjeta:</strong> Solicita un nuevo plástico en caso de robo, pérdida o daño.
+    </li>
+    <li>
+      <strong>Cambio de tutor:</strong> Actualiza a la persona responsable del menor de edad por fallecimiento,
+      cambio de custodia o resolución legal.
+    </li>
+    <li>
+      <strong>Reimpresión de contrato:</strong> Solicita nuevamente los documentos relacionados con la cuenta
+      bancaria del Banco del Bienestar.
+    </li>
+    <li>
+      <strong>Aclaración de pagos y dudas:</strong> Consulta o reporta incidencias relacionadas con el estatus
+      de la beca, depósitos retrasados o problemas con el medio de pago.
+    </li>
+    <li>
+      <strong>Entrega de documentos:</strong> Presenta la documentación solicitada durante convocatorias,
+      procesos de validación de identidad u otros trámites relacionados con las becas.
+    </li>
+  </ul>
+  <h3>Documentos generales requeridos</h3>
+  <p>
+    Los documentos necesarios pueden variar dependiendo del trámite que necesites realizar. De manera
+    general, es recomendable acudir con originales y copias legibles y vigentes de los siguientes
+    documentos:
+  </p>
+  <ul>
+    <li>Identificación oficial del beneficiario o del tutor, cuando se trate de un menor de edad.</li>
+    <li>Acta de nacimiento.</li>
+    <li>Clave Única de Registro de Población (CURP).</li>
+    <li>Comprobante de domicilio con una antigüedad no mayor a 3 meses.</li>
+    <li>Folio, comprobante de registro o reporte de pérdida, cuando corresponda.</li>
+  </ul>
+  <p>
+    Antes de acudir a una Oficina de Becas Bienestar en {ciudad}, revisa los requisitos específicos del
+    trámite que necesites realizar, ya que la documentación solicitada puede cambiar según cada
+    situación.
+  </p>
+  <p>
+    En el directorio de esta página puedes consultar las oficinas disponibles en {ciudad}, {estado}, así
+    como su dirección y demás datos de atención.
+  </p>
+</section>
