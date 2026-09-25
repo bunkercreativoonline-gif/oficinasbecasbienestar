@@ -75,18 +75,26 @@ export function sedeDisplayTitle(sede: SedeTitleInput): string {
   return `Oficina de Becas Bienestar - ${clave} - ${sede.municipioDisplay}`;
 }
 
+/**
+ * Meta title (and og:title) for an individual sede page.
+ * Pattern: Oficina Becas Bienestar - {clave} - {ciudad} | Horario, Dirección y Teléfono
+ */
 export function sedeTitle(sede: Sede): string {
   const clave = sedeClave(sede);
-  return `Oficina Becas Bienestar ${sede.municipioDisplay} - ${clave} | Horario, Dirección y Teléfono`;
+  return `Oficina Becas Bienestar - ${clave} - ${sede.municipioDisplay} | Horario, Dirección y Teléfono`;
 }
 
 export function sedeH1(sede: SedeTitleInput): string {
   return sedeDisplayTitle(sede);
 }
 
+/**
+ * Meta description for an individual sede page.
+ * Pattern: Consulta el horario, dirección y teléfono de la Oficina de Becas Bienestar {clave} en {ciudad}, {estado}.
+ */
 export function sedeDescription(sede: Sede): string {
   const clave = sedeClave(sede);
-  return `Consulta el horario, dirección y teléfono de la Oficina de Becas Bienestar en ${sede.municipioDisplay}, ${sede.estadoDisplay} - ${clave}.`;
+  return `Consulta el horario, dirección y teléfono de la Oficina de Becas Bienestar ${clave} en ${sede.municipioDisplay}, ${sede.estadoDisplay}.`;
 }
 
 export function tipoTitle(tipo: TipoSede, count: number): string {
