@@ -34,7 +34,7 @@ if (!hub) throw new Error(`Estado no encontrado: ${estado}`);
 
 const sedes = getSedesByEstado(estado);
 const municipios = getMunicipioHubs(estado);
-const title = estadoTitle(hub.display, hub.count);
+const title = estadoTitle(hub.display);
 const description = estadoDescription(hub);
 const heading = estadoH1(hub.display);
 const crumbs = [

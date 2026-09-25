@@ -5,6 +5,10 @@ import { TIPO_META, type TipoSede } from "./tipos";
 
 const META_MAX = 160;
 
+const STATE_CITY_BRAND = "Oficinas Becas Bienestar Benito Juárez";
+const STATE_CITY_DIRECTORY =
+  "Directorio de Oficinas de las Becas Bienestar Benito Juárez";
+
 function meta(text: string): string {
   return truncate(text.replace(/\s+/g, " ").trim(), META_MAX);
 }
@@ -29,38 +33,20 @@ export function homeDescription(stats: {
   );
 }
 
-export function estadoTitle(display: string, count: number): string {
-  const n = count === 1 ? "sede de atención" : "sedes de atención";
-  return `${PRIMARY_PHRASE} en ${display} | ${count} ${n}`;
+export function estadoTitle(display: string): string {
+  return `${STATE_CITY_BRAND} en ${display} - Directorio Estatal`;
 }
 
 export function estadoH1(display: string): string {
   return `${PRIMARY_PHRASE} en ${display}`;
 }
 
-export function estadoDescription(input: {
-  display: string;
-  oficial: string;
-  count: number;
-  municipios: number;
-  cabb: number;
-  sare: number;
-  ore: number;
-}): string {
-  const oficial =
-    input.oficial !== input.display ? ` (${input.oficial})` : "";
-  return meta(
-    `Oficinas y sedes de atención de Becas para el Bienestar Benito Juárez en ${input.display}${oficial}: ${input.count} oficinas (${input.cabb} CABB, ${input.sare} SARE y ${input.ore} ORE) en ${input.municipios} municipios. Consulta dirección.`,
-  );
+export function estadoDescription(input: { display: string }): string {
+  return `${STATE_CITY_DIRECTORY} en ${input.display}. Consulta la sede más cerca a tu domicilio.`;
 }
 
-export function municipioTitle(
-  municipio: string,
-  estado: string,
-  count: number,
-): string {
-  const n = count === 1 ? "oficina" : "oficinas";
-  return `${PRIMARY_PHRASE} en ${municipio}, ${estado} | ${count} ${n}`;
+export function municipioTitle(municipio: string): string {
+  return `${STATE_CITY_BRAND} en ${municipio} - Horario, teléfono y direcciones`;
 }
 
 export function municipioH1(municipio: string, estado: string): string {
@@ -70,20 +56,8 @@ export function municipioH1(municipio: string, estado: string): string {
 export function municipioDescription(input: {
   municipio: string;
   estado: string;
-  count: number;
-  cabb: number;
-  sare: number;
-  ore: number;
 }): string {
-  const parts: string[] = [];
-  if (input.cabb) parts.push(`${input.cabb} CABB`);
-  if (input.sare) parts.push(`${input.sare} SARE`);
-  if (input.ore) parts.push(`${input.ore} ORE`);
-  const mix = parts.length ? ` Incluye ${parts.join(", ")}.` : "";
-  const n = input.count === 1 ? "oficina" : "oficinas";
-  return meta(
-    `${PRIMARY_PHRASE} en ${input.municipio}, ${input.estado}: ${input.count} ${n}.${mix} Consulta dirección.`,
-  );
+  return `${STATE_CITY_DIRECTORY} en ${input.municipio}, ${input.estado}, con horario, teléfono y direcciones.`;
 }
 
 export function sedeTitle(sede: Sede): string {
