@@ -1,5 +1,5 @@
 import { truncate } from "./format";
-import { PRIMARY_PHRASE } from "./site";
+import { PRIMARY_PHRASE, PRIMARY_PHRASE_SINGULAR } from "./site";
 import type { Sede } from "./sedes";
 import { TIPO_META, type TipoSede } from "./tipos";
 
@@ -42,8 +42,8 @@ export function municipioTitle(municipio: string): string {
   return `${STATE_CITY_BRAND} en ${municipio} - Horario, teléfono y direcciones`;
 }
 
-export function municipioH1(municipio: string, estado: string): string {
-  return `${PRIMARY_PHRASE} en ${municipio}, ${estado}`;
+export function municipioH1(municipio: string): string {
+  return `${PRIMARY_PHRASE} en ${municipio}`;
 }
 
 export function municipioDescription(input: {
@@ -69,7 +69,8 @@ export function sedeTitle(sede: Sede): string {
 }
 
 export function sedeH1(sede: Sede): string {
-  return sede.nombreDisplay;
+  const clave = sedeClave(sede);
+  return `${PRIMARY_PHRASE_SINGULAR} en ${sede.municipioDisplay} - ${clave}`;
 }
 
 export function sedeDescription(sede: Sede): string {

@@ -104,7 +104,7 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
 export function sedeJsonLd(sede: Sede) {
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": "GovernmentOffice",
     "@id": canonical(sede.path),
     name: sede.nombreDisplay,
     alternateName: `${sede.tipoShort} ${sede.municipioDisplay}, ${sede.estadoDisplay}`,
@@ -112,10 +112,12 @@ export function sedeJsonLd(sede: Sede) {
     url: canonical(sede.path),
     address: {
       "@type": "PostalAddress",
-      streetAddress: sede.direccion,
-      addressLocality: sede.municipioDisplay,
-      addressRegion: sede.estadoDisplay,
-      postalCode: sede.cp,
+      streetAddress: sede.direccionLimpia.streetAddress,
+      ...(sede.direccionLimpia.postalCode
+        ? { postalCode: sede.direccionLimpia.postalCode }
+        : {}),
+      addressLocality: sede.direccionLimpia.addressLocality,
+      addressRegion: sede.direccionLimpia.addressRegion,
       addressCountry: "MX",
     },
     areaServed: {

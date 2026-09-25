@@ -134,7 +134,7 @@ const initialTipo = Astro.url.searchParams.get("tipo") ?? "";
         return `<li><a class="card" href="${escapeHtml(sede.path)}">
           <span class="${badgeClass(sede.tipo)}">${escapeHtml(sede.tipo)}</span>
           <h2 style="margin:0.45rem 0 0.35rem;font-size:1.02rem;line-height:1.3;">${escapeHtml(sede.nombre)}</h2>
-          <p class="meta" style="margin:0;">${escapeHtml(sede.municipio)}, ${escapeHtml(sede.estado)}<br>${escapeHtml(sede.direccion)}<br>C.P. ${escapeHtml(sede.cp)}</p>
+          <p class="meta" style="margin:0;">${escapeHtml(sede.municipio)}, ${escapeHtml(sede.estado)}<br>${escapeHtml(sede.direccion)}${sede.cp ? `<br>C.P. ${escapeHtml(sede.cp)}` : ""}</p>
         </a></li>`;
       })
       .join("");
@@ -155,7 +155,7 @@ const initialTipo = Astro.url.searchParams.get("tipo") ?? "";
       if (tipo && sede.tipo !== tipo) return false;
       if (!q) return true;
       const haystack = norm(
-        [sede.nombre, sede.municipio, sede.estado, sede.direccion, sede.cp, sede.tipo].join(" "),
+        [sede.nombre, sede.municipio, sede.estado, sede.direccion, sede.direccionOriginal, sede.cp, sede.tipo].join(" "),
       );
       return haystack.includes(q);
     });

@@ -37,7 +37,7 @@ const description = municipioDescription({
   municipio: hub.display,
   estado: hub.estadoDisplay,
 });
-const heading = municipioH1(hub.display, hub.estadoDisplay);
+const heading = municipioH1(hub.display);
 const crumbs = [
   { name: "Inicio", path: "/" },
   { name: hub.estadoDisplay, path: `/estado/${hub.estadoSlug}/` },
@@ -87,7 +87,7 @@ const mapSede = sedes.find((sede) => sede.lat !== null && sede.lng !== null) ?? 
           lat={mapSede.lat}
           lng={mapSede.lng}
           nombre={`Sedes en ${hub.display}`}
-          direccion={mapSede.direccion}
+          direccion={mapSede.direccionLimpia.unaLinea}
         />
       </div>
       <p class="meta" style="margin-top: 1.2rem;">

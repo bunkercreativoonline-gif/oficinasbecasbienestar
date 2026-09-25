@@ -1,7 +1,7 @@
 import rawSedes from "../data/sedes.json";
+import { limpiarDireccion, type DireccionLimpia } from "./direccion";
 import {
   cleanNombre,
-  padCp,
   parseCoord,
   splitList,
 } from "./format";
@@ -43,6 +43,8 @@ export interface Sede {
   tipoLabel: string;
   tipoShort: string;
   direccion: string;
+  direccionOriginal: string;
+  direccionLimpia: DireccionLimpia;
   asentamiento: string;
   asentamientoDisplay: string;
   localidad: string;
@@ -77,6 +79,7 @@ export interface SearchHit {
   estadoSlug: string;
   municipioSlug: string;
   direccion: string;
+  direccionOriginal: string;
   cp: string;
 }
 
@@ -119,6 +122,14 @@ function normalizeSede(raw: SedeRaw): Sede {
   const municipioPath = `${estadoPath}${mSlug}/`;
   const lat = parseCoord(raw.lat);
   const lng = parseCoord(raw.lng);
+  const direccionLimpia = limpiarDireccion({
+    direccion: raw.direccion,
+    asentamiento: raw.asentamiento,
+    localidad: raw.localidad,
+    municipio: raw.municipio,
+    estado: raw.estado,
+    cp: raw.cp,
+  });
 
   return {
     id: raw.id,
@@ -127,7 +138,9 @@ function normalizeSede(raw: SedeRaw): Sede {
     tipo,
     tipoLabel: TIPO_META[tipo].label,
     tipoShort: TIPO_META[tipo].short,
-    direccion: cleanNombre(raw.direccion),
+    direccion: direccionLimpia.unaLinea,
+    direccionOriginal: raw.direccion,
+    direccionLimpia,
     asentamiento: raw.asentamiento,
     asentamientoDisplay: titleCaseEs(raw.asentamiento),
     localidad: raw.localidad,
@@ -139,7 +152,7 @@ function normalizeSede(raw: SedeRaw): Sede {
     estadoOficial: estadoOficial(raw.estado),
     estadoId: raw.estadoId,
     municipioId: raw.municipioId,
-    cp: padCp(raw.cp),
+    cp: direccionLimpia.postalCode,
     telefonos: splitList(raw.telefonos),
     correos: splitList(raw.correos),
     lat,
@@ -297,7 +310,8 @@ export function getSearchIndex(): SearchHit[] {
     estado: sede.estadoDisplay,
     estadoSlug: sede.estadoSlug,
     municipioSlug: sede.municipioSlug,
-    direccion: sede.direccion,
+    direccion: sede.direccionLimpia.streetAddress,
+    direccionOriginal: sede.direccionOriginal,
     cp: sede.cp,
   }));
 }

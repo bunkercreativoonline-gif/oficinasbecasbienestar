@@ -65,14 +65,8 @@ const badgeClass =
           <dl class="kv">
             <div>
               <dt>Dirección</dt>
-              <dd>
-                {sede.direccion}
-                <br />
-                {sede.asentamientoDisplay}, {sede.localidadDisplay}
-                <br />
-                {sede.municipioDisplay}, {sede.estadoDisplay}
-                <br />
-                C.P. {sede.cp}
+              <dd class="address-block">
+                {sede.direccionLimpia.lineas.map((linea) => <span>{linea}</span>)}
               </dd>
             </div>
             <div>
@@ -117,7 +111,12 @@ const badgeClass =
             </div>
           </dl>
         </div>
-        <MapEmbed lat={sede.lat} lng={sede.lng} nombre={sede.nombreDisplay} direccion={sede.direccion} />
+        <MapEmbed
+          lat={sede.lat}
+          lng={sede.lng}
+          nombre={sede.nombreDisplay}
+          direccion={sede.direccionLimpia.unaLinea}
+        />
       </div>
       {
         nearby.length > 0 && (
